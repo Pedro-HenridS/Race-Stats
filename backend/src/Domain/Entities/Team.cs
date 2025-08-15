@@ -9,11 +9,11 @@ namespace Domain.Entities
         public string Name { get; set; } = string.Empty;
         public string Nationality { get; set; } = string.Empty;
         public DateOnly CreatedAt { get; set; }
-        public Guid LeaderId { get; set; } 
+        public Guid? LeaderId  { get; set; } 
         public Colors Color { get; set; }
 
         [ForeignKey("LeaderId")]
-        public Pilot Leader { get; set; }
+        public Pilot? Leader { get; set; }
         public ICollection<Pilot> Pilots { get; set; } = new List<Pilot>();
     }
 }

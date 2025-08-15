@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250815184046_db-setup")]
+    [Migration("20250815190834_db-setup")]
     partial class dbsetup
     {
         /// <inheritdoc />
@@ -30,6 +30,9 @@ namespace Infra.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
                     b.Property<string>("Circuit")
                         .IsRequired()
@@ -74,7 +77,7 @@ namespace Infra.Migrations
                     b.Property<DateOnly>("CreatedAt")
                         .HasColumnType("date");
 
-                    b.Property<Guid>("LeaderId")
+                    b.Property<Guid?>("LeaderId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
@@ -109,8 +112,7 @@ namespace Infra.Migrations
                     b.HasOne("Domain.Entities.Pilot", "Leader")
                         .WithOne()
                         .HasForeignKey("Domain.Entities.Team", "LeaderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Leader");
                 });

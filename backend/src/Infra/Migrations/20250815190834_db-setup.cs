@@ -28,7 +28,8 @@ namespace Infra.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Circuit = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TeamId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    TeamId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Category = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,7 +47,7 @@ namespace Infra.Migrations
                     Nationality = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedAt = table.Column<DateOnly>(type: "date", nullable: false),
-                    LeaderId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    LeaderId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     Color = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

@@ -28,6 +28,9 @@ namespace Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
                     b.Property<string>("Circuit")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -71,7 +74,7 @@ namespace Infra.Migrations
                     b.Property<DateOnly>("CreatedAt")
                         .HasColumnType("date");
 
-                    b.Property<Guid>("LeaderId")
+                    b.Property<Guid?>("LeaderId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
@@ -106,8 +109,7 @@ namespace Infra.Migrations
                     b.HasOne("Domain.Entities.Pilot", "Leader")
                         .WithOne()
                         .HasForeignKey("Domain.Entities.Team", "LeaderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Leader");
                 });

@@ -14,6 +14,8 @@ namespace Domain.Entities
         public string Circuit { get; set; } = string.Empty;
         public Guid TeamId { get; set; }
 
+        public SingleSeaterCategory Category { get; set; }
+
         [ForeignKey("TeamId")]
         public Team Team { get; set; }
     }
