@@ -61,6 +61,15 @@ namespace Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pilots not found.
+        /// </summary>
+        public static string PILOTS_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("PILOTS_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknow Error.
         /// </summary>
         public static string UNKNOW_ERROR {

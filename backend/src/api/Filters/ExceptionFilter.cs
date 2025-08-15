@@ -26,13 +26,13 @@ namespace Api.Filters
             {
                 var errors = RaceException.Errors;
 
-                context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                context.HttpContext.Response.StatusCode = RaceException.StatusCode;
                 context.Result = new ObjectResult(errors);
             }
 
             else{
 
-                context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Result = new ObjectResult(ResourceErrorMessages.UNKNOW_ERROR);
             }
 

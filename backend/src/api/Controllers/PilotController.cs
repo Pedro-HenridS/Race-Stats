@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Application.UseCase.Pilot;
+using Communication.Responses.Pilot;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -7,11 +9,22 @@ namespace Api.Controllers
     [ApiController]
     public class PilotController : ControllerBase
     {
+        private readonly GetAllUseCase _getAllUseCase;
+
+        public PilotController(GetAllUseCase getAllUseCase)
+        {
+            _getAllUseCase = getAllUseCase;
+        }
 
         [HttpGet]
-        public IActionResult GetAll()
+        [ProducesResponseType(typeof(List<PilotResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAll()
         {
-            return Ok("");
+            var pilots = await _getAllUseCase.Execute();
+
+            return Ok(pilots);
         }
     }
 }
