@@ -1,6 +1,7 @@
-﻿namespace Infra;
-
-public class Class1
+﻿namespace Infra
 {
+    public class Class1
+    {
 
+    }
 }
