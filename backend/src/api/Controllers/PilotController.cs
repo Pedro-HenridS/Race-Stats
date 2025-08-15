@@ -10,10 +10,12 @@ namespace Api.Controllers
     public class PilotController : ControllerBase
     {
         private readonly GetAllUseCase _getAllUseCase;
+        private readonly GetByIdUseCase _getByIdUseCase;
 
-        public PilotController(GetAllUseCase getAllUseCase)
+        public PilotController(GetAllUseCase getAllUseCase, GetByIdUseCase getByIdUseCase)
         {
             _getAllUseCase = getAllUseCase;
+            _getByIdUseCase = getByIdUseCase;
         }
 
         [HttpGet]
@@ -32,9 +34,11 @@ namespace Api.Controllers
         [ProducesResponseType(typeof(List<PilotResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById()
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            return Ok("");
+            var pilot = await _getByIdUseCase.Execute(id);
+
+            return Ok(pilot);
         }
     }
 }

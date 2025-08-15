@@ -20,5 +20,12 @@ namespace Infra.Repository.PilotRepository
 
             return pilotos;
         }
+
+        public async Task<Pilot> GetPilotById(Guid id)
+        {
+            var piloto = await _context.Pilots.Where(p => p.Id == id).FirstOrDefaultAsync();
+
+            return piloto;
+        }
     }
 }

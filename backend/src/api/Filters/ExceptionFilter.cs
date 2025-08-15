@@ -17,9 +17,7 @@ namespace Api.Filters
             {
                 UnknowException(context);
             }
-
         }
-
         private void HandleException(ExceptionContext context)
         {
             if (context.Exception is RaceException RaceException)
@@ -31,11 +29,9 @@ namespace Api.Filters
             }
 
             else{
-
                 context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Result = new ObjectResult(ResourceErrorMessages.UNKNOW_ERROR);
             }
-
         }
 
         private void UnknowException(ExceptionContext context)

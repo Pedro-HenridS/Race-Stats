@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces.PilotInterfaces;
-using Communication.Enums;
+using Application.Mapping;
 using Communication.Responses.Pilot;
 using Domain.Interfaces.PilotRepository;
 using Exception;
@@ -9,34 +9,41 @@ namespace Application.Services.Pilots
     public class PilotService : IPilotService
     {
         private readonly IPilotRepository _pilotRepository;
+        private PilotMapping _pilotMapping;
 
-        public PilotService(IPilotRepository pilotRepository)
+        public PilotService(
+            IPilotRepository pilotRepository,
+            PilotMapping pilotMapping
+            )
         {
             _pilotRepository = pilotRepository;
+            _pilotMapping = pilotMapping;
         }
 
         public async Task<List<PilotResponse>> GetAllPilotAsync()
         {
-            var registros = await _pilotRepository.GetPilots();
+            var pilots = await _pilotRepository.GetPilots();
 
-            if (registros == null) {
-                throw new RaceException(ResourceErrorMessages.PILOTS_NOT_FOUND, 204);
+            if (pilots is null) {
+                throw new RaceException(ResourceErrorMessages.PILOTS_NOT_FOUND, 404);
             }
 
-            var response = registros.Select(register =>
-                    new PilotResponse
-                    {
-                        Name  = register.Name,
-                        Fastestlap = register.Fastestlap,
-                        Weight  = register.Weight,
-                        Gender = (Gender)register.Gender,
-                        Nationality = register.Nationality,
-                        Circuit = register.Circuit,
-                        TeamId = register.TeamId,
-                        Category = (SingleSeaterCategory)register.Category
-                    }
-                ).ToList();
+            var response = pilots.Select(register => _pilotMapping.MapToResponse(register)).ToList();
             
+            return response;
+        }
+
+        public async Task<PilotResponse> GetPilotById(Guid id)
+        {
+            var pilot = await _pilotRepository.GetPilotById(id);
+
+            if (pilot is null)
+            {
+                throw new RaceException(ResourceErrorMessages.PILOTS_NOT_FOUND, 404);
+            }
+
+            var response = _pilotMapping.MapToResponse(pilot);
+                
             return response;
         }
     }
