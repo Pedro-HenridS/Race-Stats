@@ -1,4 +1,4 @@
-using Infra;
+﻿using Infra;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
