@@ -26,5 +26,15 @@ namespace Api.Controllers
 
             return Ok(pilots);
         }
+
+        [HttpGet]
+        [Route("/{id}")]
+        [ProducesResponseType(typeof(List<PilotResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetById()
+        {
+            return Ok("");
+        }
     }
 }
