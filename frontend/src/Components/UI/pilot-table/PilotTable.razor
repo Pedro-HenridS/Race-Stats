@@ -1,0 +1,53 @@
+﻿@using System.Net.Http.Json;
+@using src.Interfaces.pilot;
+@inject HttpClient Http;
+
+<section>
+	@if (isLoading)
+	{
+		<p>Carregando...</p>
+	}
+	else if (data == null || data.Count == 0)
+	{
+		<p>Nenhum dado encontrado.</p>
+	}
+
+	else
+	{
+		<ol>
+			@foreach (Pilot pilot in data)
+			{
+				<li>
+					<h3>
+						@pilot.Name
+					</h3>
+				</li>
+			}
+		</ol>
+		
+	}
+
+</section>
+
+@code {
+
+	private List<Pilot> data = new();
+	private bool isLoading = true;
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			data = await Http.GetFromJsonAsync<List<Pilot>>("https://localhost:7192/pilots");
+		}
+		catch(Exception ex)
+		{
+			Console.WriteLine($"Erro ao carregar dados: {ex.Message}");
+		}
+		finally
+		{
+			isLoading = false;
+		}
+	}
+
+}

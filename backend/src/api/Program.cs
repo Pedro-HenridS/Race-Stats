@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Configuration.AddUserSecrets<Program>(optional: true);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -54,12 +55,15 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseCors("CorsPolicy");
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("CorsPolicy");
+
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
