@@ -1,0 +1,23 @@
+﻿@using src.Interfaces.pilot
+
+
+<div class="pilot-container">
+	<div class="info">
+
+		<span>
+			@pilot.Nationality
+		</span>
+		
+		@pilot.Name
+	</div>
+	<div>
+
+	</div>
+</div>
+
+@code {
+
+	[Parameter]
+	public Pilot pilot { get; set; }
+
+}
