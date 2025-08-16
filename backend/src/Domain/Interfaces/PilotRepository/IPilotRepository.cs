@@ -8,5 +8,6 @@ namespace Domain.Interfaces.PilotRepository
     {
         public Task<List<Pilot>> GetPilots();
         public Task<Pilot> GetPilotById(Guid id);
+        public Task UpdatePilot(Pilot pilot); 
     }
 }

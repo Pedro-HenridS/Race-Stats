@@ -27,5 +27,11 @@ namespace Infra.Repository.PilotRepository
 
             return piloto;
         }
+
+        public async Task UpdatePilot(Pilot pilot) 
+        {
+            _context.Pilots.Update(pilot);
+            await _context.SaveChangesAsync();
+        }
     }
 }

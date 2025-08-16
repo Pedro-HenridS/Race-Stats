@@ -29,12 +29,14 @@ builder.Services.AddControllers(options =>
 builder.Services.AddScoped<IPilotRepository, PilotRepository>();
 
 // Service
-builder.Services.AddScoped<IPilotService, PilotService>();
+builder.Services.AddScoped<IPilotGetService, PilotGetService>();
+builder.Services.AddScoped<IPilotUpdateService, PilotUpdateService>();
 builder.Services.AddScoped<PilotMapping, PilotMapping>();
 
 // UseCase
 builder.Services.AddScoped<GetAllUseCase>();
 builder.Services.AddScoped<GetByIdUseCase>();
+builder.Services.AddScoped<UpdateUseCase>();
 
 builder.Services.AddControllers();
 

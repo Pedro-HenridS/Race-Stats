@@ -5,9 +5,9 @@ namespace Application.UseCase.Pilot
 {
     public class GetAllUseCase
     {
-        private IPilotService _pilotService;
+        private IPilotGetService _pilotService;
 
-        public GetAllUseCase(IPilotService pilotService)
+        public GetAllUseCase(IPilotGetService pilotService)
         {
             _pilotService = pilotService;
         }

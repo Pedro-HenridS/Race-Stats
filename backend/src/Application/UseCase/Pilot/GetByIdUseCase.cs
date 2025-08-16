@@ -5,16 +5,16 @@ namespace Application.UseCase.Pilot
 {
     public class GetByIdUseCase
     {
-        private IPilotService _pilotService;
+        private IPilotGetService _pilotService;
 
-        public GetByIdUseCase(IPilotService pilotService)
+        public GetByIdUseCase(IPilotGetService pilotService)
         {
             _pilotService = pilotService;
         }
 
         public async Task<PilotResponse> Execute(Guid id)
         {
-            return await _pilotService.GetPilotById(id);
+            return await _pilotService.GetPilotByIdAsync(id);
         }
     }
 }

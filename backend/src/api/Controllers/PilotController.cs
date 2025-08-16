@@ -1,4 +1,5 @@
 ﻿using Application.UseCase.Pilot;
+using Communication.Requests.Pilot;
 using Communication.Responses.Pilot;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +12,18 @@ namespace Api.Controllers
     {
         private readonly GetAllUseCase _getAllUseCase;
         private readonly GetByIdUseCase _getByIdUseCase;
+        private readonly UpdateUseCase _updateUseCase;
 
-        public PilotController(GetAllUseCase getAllUseCase, GetByIdUseCase getByIdUseCase)
+        public PilotController(GetAllUseCase getAllUseCase, GetByIdUseCase getByIdUseCase, UpdateUseCase updateUseCase)
         {
             _getAllUseCase = getAllUseCase;
             _getByIdUseCase = getByIdUseCase;
+            _updateUseCase = updateUseCase;
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(List<PilotResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll()
         {
@@ -32,13 +35,25 @@ namespace Api.Controllers
         [HttpGet]
         [Route("/{id}")]
         [ProducesResponseType(typeof(List<PilotResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var pilot = await _getByIdUseCase.Execute(id);
 
             return Ok(pilot);
+        }
+
+        [HttpPut]
+        [Route("record/{id}")]
+        [ProducesResponseType(typeof(List<PilotResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PutRecord([FromRoute] Guid id, [FromBody] PutRecordRequest request)
+        {
+            await _updateUseCase.Execute(id, request);
+
+            return NoContent();
         }
     }
 }

@@ -6,12 +6,12 @@ using Exception;
 
 namespace Application.Services.Pilots
 {
-    public class PilotService : IPilotService
+    public class PilotGetService : IPilotGetService
     {
         private readonly IPilotRepository _pilotRepository;
         private PilotMapping _pilotMapping;
 
-        public PilotService(
+        public PilotGetService(
             IPilotRepository pilotRepository,
             PilotMapping pilotMapping
             )
@@ -33,7 +33,7 @@ namespace Application.Services.Pilots
             return response;
         }
 
-        public async Task<PilotResponse> GetPilotById(Guid id)
+        public async Task<PilotResponse> GetPilotByIdAsync(Guid id)
         {
             var pilot = await _pilotRepository.GetPilotById(id);
 
