@@ -1,5 +1,5 @@
-﻿using Communication.Requests.Pilot;
-using Communication.Responses.Pilot;
+﻿using Communication.Responses.Pilot;
+using Domain.Interfaces.PilotRepository;
 
 namespace Application.Interfaces.PilotInterfaces
 {
@@ -8,5 +8,7 @@ namespace Application.Interfaces.PilotInterfaces
         public Task<List<PilotResponse>> GetAllPilotAsync();
 
         public Task<PilotResponse> GetPilotByIdAsync(Guid id);
+        public Task<List<TeamPilotsRepository>> GetPilotsByTeamsAsync();
+
     }
 }

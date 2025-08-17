@@ -24,12 +24,13 @@ namespace Application.Services.Pilots
         {
             var pilots = await _pilotRepository.GetPilots();
 
-            if (pilots is null) {
+            if (pilots is null)
+            {
                 throw new RaceException(ResourceErrorMessages.PILOTS_NOT_FOUND, 404);
             }
 
             var response = pilots.Select(register => _pilotMapping.MapToResponse(register)).ToList();
-            
+
             return response;
         }
 
@@ -43,7 +44,19 @@ namespace Application.Services.Pilots
             }
 
             var response = _pilotMapping.MapToResponse(pilot);
-                
+
+            return response;
+        }
+
+        public async Task<List<TeamPilotsRepository>> GetPilotsByTeamsAsync()
+        {
+            var response = await _pilotRepository.GetPilotsGroupByEquip();
+
+            if (response is null)
+            {
+                throw new RaceException(ResourceErrorMessages.PILOTS_NOT_FOUND, 404);
+            }
+
             return response;
         }
     }

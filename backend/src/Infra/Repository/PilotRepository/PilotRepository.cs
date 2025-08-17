@@ -16,7 +16,33 @@ namespace Infra.Repository.PilotRepository
         }
         public async Task<List<Pilot>> GetPilots()
         {
-            var pilotos = await _context.Pilots.Include(t => t.Team).ToListAsync();
+            var pilotos = await _context.Pilots.Include(t => t.Team).OrderBy(p => p.Fastestlap).ToListAsync();
+
+            return pilotos;
+        }
+
+        public async Task<List<TeamPilotsRepository>> GetPilotsGroupByEquip()
+        {
+            var pilotos = await _context.Pilots.Include(t => t.Team).GroupBy(
+                p => new { p.Team.Name, p.Category })
+                .OrderBy(t => t.Key.Category)
+                .Select(g => new TeamPilotsRepository
+                {
+                    Team = g.Key.Name,
+                    Category = g.Key.Category,
+                    Pilots = g.Select(p => new PilotDTO
+                    {
+                        Name = p.Name,
+                        Fastestlap = p.Fastestlap,
+                        Weight = p.Weight,
+                        Gender = p.Gender,
+                        Nationality = p.Nationality,
+                        Circuit = p.Circuit,
+                        TeamId = p.TeamId,
+                        Category = p.Category
+
+                    }).OrderBy(p => p.Fastestlap).ToList()
+                }).ToListAsync();
 
             return pilotos;
         }
@@ -28,10 +54,12 @@ namespace Infra.Repository.PilotRepository
             return piloto;
         }
 
-        public async Task UpdatePilot(Pilot pilot) 
+        public async Task UpdatePilot(Pilot pilot)
         {
             _context.Pilots.Update(pilot);
             await _context.SaveChangesAsync();
         }
+
+
     }
 }

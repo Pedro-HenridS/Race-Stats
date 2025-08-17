@@ -47,6 +47,7 @@ builder.Services.AddScoped<PilotMapping, PilotMapping>();
 builder.Services.AddScoped<GetAllUseCase>();
 builder.Services.AddScoped<GetByIdUseCase>();
 builder.Services.AddScoped<UpdateUseCase>();
+builder.Services.AddScoped<GetPilotsByTeam>();
 
 builder.Services.AddControllers();
 
