@@ -1,7 +1,4 @@
-﻿using Domain.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Domain.Entities
+﻿namespace Domain.Entities
 {
     public class Team
     {
@@ -9,11 +6,7 @@ namespace Domain.Entities
         public string Name { get; set; } = string.Empty;
         public string Nationality { get; set; } = string.Empty;
         public DateOnly CreatedAt { get; set; }
-        public Guid? LeaderId  { get; set; } 
-        public Colors Color { get; set; }
-
-        [ForeignKey("LeaderId")]
-        public Pilot? Leader { get; set; }
+        public string Color { get; set; }
         public ICollection<Pilot> Pilots { get; set; } = new List<Pilot>();
     }
 }

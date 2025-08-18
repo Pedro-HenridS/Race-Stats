@@ -13,7 +13,7 @@ namespace Domain.Entities
         public string Nationality { get; set; } = string.Empty;
         public string Circuit { get; set; } = string.Empty;
         public Guid TeamId { get; set; }
-
+        public bool Leader { get; set; }
         public SingleSeaterCategory Category { get; set; }
 
         [ForeignKey("TeamId")]

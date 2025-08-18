@@ -24,12 +24,13 @@ namespace Infra.Repository.PilotRepository
         public async Task<List<TeamPilotsRepository>> GetPilotsGroupByEquip()
         {
             var pilotos = await _context.Pilots.Include(t => t.Team).GroupBy(
-                p => new { p.Team.Name, p.Category })
+                p => new { p.Team.Name, p.Team.Color, p.Category })
                 .OrderBy(t => t.Key.Category)
                 .Select(g => new TeamPilotsRepository
                 {
                     Team = g.Key.Name,
                     Category = g.Key.Category,
+                    Color = g.Key.Color,
                     Pilots = g.Select(p => new PilotDTO
                     {
                         Name = p.Name,

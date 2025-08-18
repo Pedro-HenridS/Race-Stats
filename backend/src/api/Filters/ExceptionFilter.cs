@@ -28,7 +28,8 @@ namespace Api.Filters
                 context.Result = new ObjectResult(errors);
             }
 
-            else{
+            else
+            {
                 context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Result = new ObjectResult(ResourceErrorMessages.UNKNOW_ERROR);
             }
@@ -36,8 +37,8 @@ namespace Api.Filters
 
         private void UnknowException(ExceptionContext context)
         {
-            context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            context.Result = new ObjectResult(ResourceErrorMessages.UNKNOW_ERROR);
+            //context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            //context.Result = new ObjectResult(ResourceErrorMessages.UNKNOW_ERROR);
         }
     }
 }
