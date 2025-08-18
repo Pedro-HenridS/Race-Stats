@@ -1,23 +1,78 @@
-﻿@using src.Interfaces.pilot
+﻿@using src.DTO.pilot
 
 
-<div class="pilot-container">
-	<div class="info">
 
-		<span>
-			@pilot.Nationality
-		</span>
-		
-		@pilot.Name
-	</div>
-	<div>
+<div class="pilot-container" @onclick="Toggle">
+	<section class="copilot-item">
+		<div class="info-container">
+				<div class="general-info">
+					<div class="flag">
+					<img src="@GetFlagPath(pilot.Nationality)" alt="@pilot.Nationality" class="flag-img" />
+				</div>
+				<div class="info">
 
-	</div>
+					<div class="origin">
+						@pilot.Nationality
+					</div>
+					<div class="name">
+						@pilot.Name
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="more">
+			<div class="category">
+				@pilot.Category
+			</div>
+			<i class="fas fa-chevron-down arrow @ArrowClass"></i>
+		</div>
+	</section>
+	@if (isExpanded)
+	{
+		<section class="container">
+			<div class="time">
+				<div class="title">
+					<p>Time</p>
+				</div>
+
+				
+				<p class="text">
+					@pilot.Fastestlap
+				</p>
+			</div>
+			<div class="details">
+				<div>
+					@pilot.Gender
+				</div>
+				<div>
+
+					@pilot.Weight.ToString("f2") kg
+				</div>
+			</div>
+		</section>
+	}
+
+	
 </div>
 
 @code {
 
 	[Parameter]
-	public Pilot pilot { get; set; }
+	public PilotItems pilot { get; set; }
+
+
+	private string ArrowClass => isExpanded ? "rotate" : "";
+
+	public bool isExpanded = false;
+
+	private void Toggle()
+	{
+		isExpanded = !isExpanded;
+	}
+
+	private string GetFlagPath(string nationality)
+	{
+		return $"/Flags/{nationality}.svg";
+	}
 
 }

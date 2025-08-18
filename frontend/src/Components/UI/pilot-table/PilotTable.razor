@@ -1,5 +1,10 @@
 ﻿@using System.Net.Http.Json;
-@using src.Interfaces.pilot;
+@using src.Components.UI.pilot_card;
+@using src.Components.UI.team_card
+@using src.DTO.pilot
+@using src.DTO.teams
+
+
 @inject HttpClient Http;
 
 <section>
@@ -8,46 +13,96 @@
 		<p>Carregando...</p>
 	}
 	else if (data == null || data.Count == 0)
-	{
+	{	
 		<p>Nenhum dado encontrado.</p>
 	}
 
 	else
-	{
-		<ol>
-			@foreach (Pilot pilot in data)
-			{
-				<li>
-					<h3>
-						@pilot.Name
-					</h3>
-				</li>
-			}
-		</ol>
-		
+	{	
+		<header>
+			<div>
+				<button @onclick="FilterTeam">
+					<i class="fas fa-filter"></i>
+				</button>
+			</div>
+		</header>
+
+		@if (filterOp)
+		{
+			<ol class="table pilots" >
+				@foreach (PilotItems pilot in data)
+				{
+					<li class="pilot">
+						<PilotCard pilot=@pilot />
+
+					</li>
+				}
+			</ol>
+		}
+		@if (!filterOp)
+		{
+			<section class="table teams">
+				@foreach (Teams team in teams)
+				{
+					<div class="team" >
+						<TeamCard Teams=@team/>
+					</div>
+				}
+			</section>
+			
+		}
 	}
 
 </section>
 
 @code {
 
-	private List<Pilot> data = new();
+	private List<PilotItems> data = new();
+	private List<Teams> teams = new();
 	private bool isLoading = true;
+
+	private bool filterOp = true;
 
 	protected override async Task OnInitializedAsync()
 	{
 		try
 		{
-			data = await Http.GetFromJsonAsync<List<Pilot>>("https://localhost:7192/pilots");
+			data = await Http.GetFromJsonAsync<List<PilotItems>>("http://localhost:5076/pilots");
+			
+
+			foreach (Teams teams in teams)
+			{
+				Console.WriteLine(teams.Team);
+			}
+
 		}
 		catch(Exception ex)
 		{
+
 			Console.WriteLine($"Erro ao carregar dados: {ex.Message}");
 		}
 		finally
 		{
 			isLoading = false;
 		}
+
+
+	}
+
+	protected async Task FilterTeam()
+	{
+		try
+		{
+			teams = await Http.GetFromJsonAsync<List<Teams>>("http://localhost:5076/teams");
+			filterOp = !filterOp;
+			
+			StateHasChanged();
+		}
+		catch(Exception ex)
+		{
+			Console.WriteLine($"Erro ao carregar dados: {ex.Message}");
+		}
+
 	}
 
 }

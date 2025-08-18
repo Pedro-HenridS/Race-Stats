@@ -1,6 +1,10 @@
 ﻿[
   {
-    "outputFile": "wwwroot/css/App.css" ,
+    "outputFile": "wwwroot/css/App.css",
     "inputFile": "Styles/App.scss"
+  },
+  {
+    "outputFile": "Components/UI/pilot-card/PilotCard.razor.css",
+    "inputFile": "Components/UI/pilot-card/PilotCard.razor.scss"
   }
 ]

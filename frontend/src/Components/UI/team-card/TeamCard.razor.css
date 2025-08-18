@@ -1,0 +1,12 @@
+﻿.team-item{
+    width: auto;
+    height: auto;
+}
+
+.pilots{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+

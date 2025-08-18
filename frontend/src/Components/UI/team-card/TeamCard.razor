@@ -1,0 +1,31 @@
+﻿@using src.Components.UI.pilot_card
+@using src.DTO.pilot
+@using src.DTO.teams
+<div class="team-item">
+	
+	<div class="equip"> 
+		@Teams.Team
+	</div>
+
+	<div class="pilots">
+		@foreach (PilotItems pilot in Teams.Pilots)
+		{
+			<div class="pilot">
+				<PilotCard pilot=@pilot />
+
+			</div>
+
+	
+		}
+	</div>
+	
+
+</div>
+
+@code {
+
+	[Parameter]
+	public Teams Teams { get; set; }
+
+	
+}

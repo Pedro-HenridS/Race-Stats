@@ -1,18 +1,16 @@
-﻿
-
-using src.Common.Enums.Category;
+﻿using src.Common.Enums.Category;
 using src.Common.Enums.Pilot;
 
-namespace src.Interfaces.pilot
+namespace src.DTO.pilot
 {
-    public class Pilot
+    public class PilotItems
     {
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
         public TimeSpan Fastestlap { get; set; }
         public decimal Weight { get; set; }
         public Gender Gender { get; set; }
-        public string Nationality { get; set; } = string.Empty;
-        public string Circuit { get; set; } = string.Empty;
+        public string Nationality { get; set; }
+        public string Circuit { get; set; }
         public Guid TeamId { get; set; }
         public SingleSeaterCategory Category { get; set; }
     }
