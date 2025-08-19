@@ -21,12 +21,11 @@ namespace Infra.Repository.PilotRepository
         public async Task<List<CategoryPilotsDto>> GetPilots()
         {
             var pilotos = await _context.Pilots.Include(t => t.Team)
-                .OrderBy(p => p.Fastestlap)
                 .GroupBy(p => p.Category)
                 .Select(g => new CategoryPilotsDto
                 {
                     Category = g.Key,
-                    pilotDTOs = g.Select(p => new PilotDTO
+                    pilotDTOs = g.OrderBy(p => p.Fastestlap).Select(p => new PilotDTO
                     {
                         Name = p.Name,
                         Fastestlap = p.Fastestlap,
