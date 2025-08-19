@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces.PilotInterfaces;
-using Application.Mapping;
 using Communication.Requests.Pilot;
 using Domain.Enums;
 using Domain.Interfaces.PilotRepository;

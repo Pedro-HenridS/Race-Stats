@@ -1,7 +1,6 @@
 ﻿
 using Api.Filters;
 using Application.Interfaces.PilotInterfaces;
-using Application.Mapping;
 using Application.Services.Pilots;
 using Application.UseCase.Pilot;
 using Domain.Interfaces.PilotRepository;
@@ -41,13 +40,10 @@ builder.Services.AddScoped<IPilotRepository, PilotRepository>();
 // Service
 builder.Services.AddScoped<IPilotGetService, PilotGetService>();
 builder.Services.AddScoped<IPilotUpdateService, PilotUpdateService>();
-builder.Services.AddScoped<PilotMapping, PilotMapping>();
 
 // UseCase
 builder.Services.AddScoped<GetAllUseCase>();
-builder.Services.AddScoped<GetByIdUseCase>();
 builder.Services.AddScoped<UpdateUseCase>();
-builder.Services.AddScoped<GetPilotsByTeam>();
 
 builder.Services.AddControllers();
 

@@ -9,16 +9,18 @@
 
 <section>
 	
-		<header>
-			<div>
-				<button @* @onclick="FilterTeam" *@>
-					<i class="fas fa-filter"></i>
-				</button>
-			</div>
-		</header>
+		
 
 		@if (filterOp)
-		{
+		{	
+			<header class="header">
+				<div class="header-name">
+					<span>Nacionalidade</span>
+					|
+					<span>Nome</span>
+				</div>
+				<span class="header-category">Categoria</span>
+			</header>
 			<ol class="table pilots" >
 				@foreach (PilotItems pilot in data)
 				{

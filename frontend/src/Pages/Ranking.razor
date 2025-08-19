@@ -14,14 +14,27 @@
 
 		<main class="main">
 
+			<section class="center">
+				<div class="category">
+					<CategoryFilter category=@_categories OnCategorySelected="OnCategorySelected" />
+				</div>
 
-		<CategoryFilter category=@_categories OnCategorySelected="OnCategorySelected" />
-		@if (_viewPilotList != null)
-		{
-			<PilotTable data=@_viewPilotList />
-		}else{
-			<p> Carregando dados..</p>
-		}
+
+				<div class="filter">
+					<button @* @onclick="FilterTeam" *@>
+						<i class="fas fa-filter"></i>
+					</button>
+				</div>
+				@if (_viewPilotList != null)
+				{
+					<PilotTable data=@_viewPilotList />
+				}
+				else
+				{
+					<p> Carregando dados..</p>
+				}
+			</section>
+			
 		
 		</main>
 	}

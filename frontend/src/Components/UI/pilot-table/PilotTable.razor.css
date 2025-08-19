@@ -13,11 +13,16 @@
     padding-inline-start: 0px;
 }
 
+.pilots {
+    margin-top: 0;
+}
+
 ol li {
     counter-increment: item;
 
     padding-left: 2.5rem;
     position: relative;
+
 }
 
     ol li::before {
@@ -84,23 +89,31 @@ ol li {
 
     }
 
-
-
-
-
         .table .team:nth-child(odd) {
             background: linear-gradient(to left, rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.4));
         }
-
         .table .team:nth-child(even) {
             background: linear-gradient(to right, rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.4));
         }
-
         .table .team:hover {
             cursor: pointer;
             background-color: rgba(255,255,255,0.3);
         }
 
-.pilot{
-    
+.header {
+    width: 70vw;
+    height: 3rem;
+    background: rgba(50, 50, 50, 1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 2rem 0 2rem;
+    align-items: center;
+}
+
+.header-name {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 10rem;
 }

@@ -1,6 +1,6 @@
 ﻿namespace Communication.Enums
 {
-    public enum Gender
+    public enum GenderDto
     {
         male,
         female
