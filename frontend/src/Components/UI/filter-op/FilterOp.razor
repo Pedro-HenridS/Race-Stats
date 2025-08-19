@@ -1,0 +1,69 @@
+﻿@using src.Common.Enums.Pilot
+@using src.Common.Filter
+
+<div class="container">
+
+	<div class="op">
+		@foreach (string opt in options)
+		{
+			<button class="option @(optSelected.Contains(opt) ? "clicked" : "isntClicked")" @onclick="() => OnOptClicked(opt)">
+				@opt
+				<div class="arrow-container">
+					<i class="fas fa-chevron-down arrow @(optSelected.Contains(opt) ? @ArrowClass : "")"></i>
+				</div>
+			</button>
+		}
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public EventCallback<Filters> filters { get; set; }
+
+	[Parameter]
+	public List<String> options { get; set; }
+
+	public List<String> optSelected { get; set; } = new List<string>();
+
+	private string ArrowClass => isExpanded ? "ArrowClass" : "";
+
+	public bool isExpanded = false;
+
+	private void Toggle()
+	{
+		isExpanded = !isExpanded;
+	}
+
+	public async Task OnOptClicked(String opt)
+	{
+		if (optSelected.Contains(opt))
+		{
+			optSelected.Remove(opt);
+			Console.WriteLine(opt);
+
+
+		}
+		else
+		{
+			Console.WriteLine(opt);
+			optSelected.Add(opt);
+		}
+
+		Toggle();
+
+		var newFilters = new Filters
+		{
+			Team = optSelected.Count > 0 ? optSelected.Last() : null,
+			Gender = optSelected.Count > 0 ? Enum.Parse<Gender>(optSelected.Last()) : (Gender?)null,
+			Nationality = optSelected.Count > 0 ? optSelected.Last() : null
+		};
+
+		if (filters.HasDelegate)
+			await filters.InvokeAsync(newFilters);
+
+		StateHasChanged();
+
+	}
+
+
+}

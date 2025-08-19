@@ -1,5 +1,7 @@
 ﻿@using System.Net.Http.Json;
+@using src.Common.Filter
 @using src.Components.UI.category_filter
+@using src.Components.UI.filter_op
 @using src.Components.UI.pilot_table;
 @using src.DTO.pilot;
 
@@ -20,10 +22,21 @@
 				</div>
 
 
+			
 				<div class="filter">
-					<button @* @onclick="FilterTeam" *@>
-						<i class="fas fa-filter"></i>
-					</button>
+				@if (filterIsClicked)
+				{
+					<div class="filterop">
+						<FilterOp options=@options_filters filters="NewFilters" />
+					</div>
+				}
+
+
+				<button @onclick=IsFilterClicked>
+					<i class="fas fa-filter"></i>
+				</button>
+					
+					
 				</div>
 				@if (_viewPilotList != null)
 				{
@@ -53,6 +66,10 @@
 
 	private String SelectedCategory;
 
+	private Filters filters = new();
+	private List<String> options_filters = ["Time", "Genero", "Nacionalidade"];
+	private bool filterIsClicked = false;
+
 	private async Task OnCategorySelected(string clickedText)
 	{
 		SelectedCategory = clickedText;
@@ -70,7 +87,8 @@
 	{
 		try
 		{
-			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>("http://localhost:5076/pilots");
+			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>
+			($"http://localhost:5076/pilots?team={filters.Team}&gender={filters.Gender}&nationality={filters.Nationality}");
 
 
 			_categories = _pilotsList.Select(c => c.category).ToList();
@@ -83,5 +101,16 @@
 		{
 			Console.WriteLine(er);
 		}
+	}
+
+	private void IsFilterClicked()
+	{
+		filterIsClicked = !filterIsClicked;
+	}
+
+	public void NewFilters(Filters filtersSelected)
+	{
+		filters = filtersSelected;
+		Console.WriteLine(filtersSelected);
 	}
 }

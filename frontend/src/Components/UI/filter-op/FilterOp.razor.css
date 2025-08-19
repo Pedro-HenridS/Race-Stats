@@ -1,0 +1,44 @@
+﻿.container {
+    display: flex;
+    width: auto;
+}
+
+.option {
+    padding: 0rem 1rem 0rem 1rem;
+    color: gray;
+    border: none;
+
+    margin-left: 1rem;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+
+    width: auto;
+    height: 2.5rem;
+    background-color: rgba(50, 50, 50, 0.5);
+}
+
+
+.clicked {
+    background-color: rgba(81, 191, 255, 1);
+    color: #1C1C1C;
+}
+.isntClicked {
+    background-color: rgba(50, 50, 50, 0.5);
+    color: white;
+
+}
+
+.arrow-container {
+    margin-left: 1rem;
+    
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+}
+
+.ArrowClass {
+    transform: rotate(180deg);
+    
+}
