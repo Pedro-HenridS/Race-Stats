@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces.PilotInterfaces;
-using Domain.Interfaces.PilotRepository;
+using Domain.Dto.TeamsDto;
 
 namespace Application.UseCase.Pilot
 {
@@ -12,10 +12,10 @@ namespace Application.UseCase.Pilot
             _pilotService = pilotService;
         }
 
-        public async Task<List<TeamPilotsRepository>> Execute()
+        public async Task<List<TeamPilotsDto>> Execute(string category)
         {
 
-            var response = await _pilotService.GetPilotsByTeamsAsync();
+            var response = await _pilotService.GetPilotsByTeamsAsync(category);
 
             return response;
         }

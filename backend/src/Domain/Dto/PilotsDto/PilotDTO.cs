@@ -1,8 +1,6 @@
-﻿
+﻿using Domain.Enums;
 
-using Domain.Enums;
-
-namespace Domain.Interfaces.PilotRepository
+namespace Domain.Dto.PilotsDto
 {
     public class PilotDTO
     {

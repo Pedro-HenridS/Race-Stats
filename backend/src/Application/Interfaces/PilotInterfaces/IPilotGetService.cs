@@ -1,14 +1,15 @@
 ﻿using Communication.Responses.Pilot;
-using Domain.Interfaces.PilotRepository;
+using Domain.Dto.PilotsDto;
+using Domain.Dto.TeamsDto;
 
 namespace Application.Interfaces.PilotInterfaces
 {
     public interface IPilotGetService
     {
-        public Task<List<PilotResponse>> GetAllPilotAsync();
+        public Task<List<CategoryPilotResponse>> GetAllPilotAsync();
 
         public Task<PilotResponse> GetPilotByIdAsync(Guid id);
-        public Task<List<TeamPilotsRepository>> GetPilotsByTeamsAsync();
+        public Task<List<TeamPilotsDto>> GetPilotsByTeamsAsync(string category);
 
     }
 }

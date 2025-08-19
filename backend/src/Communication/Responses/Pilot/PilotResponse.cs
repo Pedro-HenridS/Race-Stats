@@ -11,6 +11,6 @@ namespace Communication.Responses.Pilot
         public string Nationality { get; set; } = string.Empty;
         public string Circuit { get; set; } = string.Empty;
         public Guid TeamId { get; set; }
-        public SingleSeaterCategory Category { get; set; }
+        public string Category { get; set; }
     }
 }

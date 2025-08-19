@@ -1,5 +1,4 @@
-﻿using src.Common.Enums.Category;
-using src.Common.Enums.Pilot;
+﻿using src.Common.Enums.Pilot;
 
 namespace src.DTO.pilot
 {
@@ -12,6 +11,6 @@ namespace src.DTO.pilot
         public string Nationality { get; set; }
         public string Circuit { get; set; }
         public Guid TeamId { get; set; }
-        public SingleSeaterCategory Category { get; set; }
+        public string Category { get; set; }
     }
 }

@@ -61,6 +61,15 @@ namespace Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bad request.
+        /// </summary>
+        public static string BAD_REQUEST {
+            get {
+                return ResourceManager.GetString("BAD_REQUEST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pilots not found.
         /// </summary>
         public static string PILOTS_NOT_FOUND {

@@ -1,6 +1,9 @@
 ﻿using Application.Interfaces.PilotInterfaces;
 using Application.Mapping;
+using Communication.Enums;
 using Communication.Responses.Pilot;
+using Domain.Dto.PilotsDto;
+using Domain.Dto.TeamsDto;
 using Domain.Interfaces.PilotRepository;
 using Exception;
 
@@ -20,7 +23,7 @@ namespace Application.Services.Pilots
             _pilotMapping = pilotMapping;
         }
 
-        public async Task<List<PilotResponse>> GetAllPilotAsync()
+        public async Task<List<CategoryPilotResponse>> GetAllPilotAsync()
         {
             var pilots = await _pilotRepository.GetPilots();
 
@@ -29,7 +32,23 @@ namespace Application.Services.Pilots
                 throw new RaceException(ResourceErrorMessages.PILOTS_NOT_FOUND, 404);
             }
 
-            var response = pilots.Select(register => _pilotMapping.MapToResponse(register)).ToList();
+            var response = pilots.Select(c => new CategoryPilotResponse
+            {
+
+                Category = c.Category.ToString(),
+                pilotDTOs = c.pilotDTOs.Select(p => new PilotResponse
+                {
+                    Name = p.Name,
+                    Fastestlap = p.Fastestlap,
+                    Weight = p.Weight,
+                    Gender = (Gender)p.Gender,
+                    Nationality = p.Nationality,
+                    Circuit = p.Circuit,
+                    TeamId = p.TeamId,
+                    Category = p.Category.ToString(),
+                }).ToList()
+
+            }).ToList();
 
             return response;
         }
@@ -48,9 +67,9 @@ namespace Application.Services.Pilots
             return response;
         }
 
-        public async Task<List<TeamPilotsRepository>> GetPilotsByTeamsAsync()
+        public async Task<List<TeamPilotsDto>> GetPilotsByTeamsAsync(string category)
         {
-            var response = await _pilotRepository.GetPilotsGroupByEquip();
+            var response = await _pilotRepository.GetPilotsGroupByEquip(category);
 
             if (response is null)
             {

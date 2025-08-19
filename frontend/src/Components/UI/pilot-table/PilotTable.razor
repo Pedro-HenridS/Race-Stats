@@ -8,20 +8,10 @@
 @inject HttpClient Http;
 
 <section>
-	@if (isLoading)
-	{
-		<p>Carregando...</p>
-	}
-	else if (data == null || data.Count == 0)
-	{	
-		<p>Nenhum dado encontrado.</p>
-	}
-
-	else
-	{	
+	
 		<header>
 			<div>
-				<button @onclick="FilterTeam">
+				<button @* @onclick="FilterTeam" *@>
 					<i class="fas fa-filter"></i>
 				</button>
 			</div>
@@ -51,58 +41,19 @@
 			</section>
 			
 		}
-	}
+	
 
 </section>
 
 @code {
 
-	private List<PilotItems> data = new();
+	[Parameter]
+	public List<PilotItems> data { get; set; }
+
+	[Parameter]
+	public bool filterOp { get; set; } = true;
+
 	private List<Teams> teams = new();
-	private bool isLoading = true;
 
-	private bool filterOp = true;
-
-	protected override async Task OnInitializedAsync()
-	{
-		try
-		{
-			data = await Http.GetFromJsonAsync<List<PilotItems>>("http://localhost:5076/pilots");
-			
-
-			foreach (Teams teams in teams)
-			{
-				Console.WriteLine(teams.Team);
-			}
-
-		}
-		catch(Exception ex)
-		{
-
-			Console.WriteLine($"Erro ao carregar dados: {ex.Message}");
-		}
-		finally
-		{
-			isLoading = false;
-		}
-
-
-	}
-
-	protected async Task FilterTeam()
-	{
-		try
-		{
-			teams = await Http.GetFromJsonAsync<List<Teams>>("http://localhost:5076/teams");
-			filterOp = !filterOp;
-			
-			StateHasChanged();
-		}
-		catch(Exception ex)
-		{
-			Console.WriteLine($"Erro ao carregar dados: {ex.Message}");
-		}
-
-	}
 
 }

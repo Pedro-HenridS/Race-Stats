@@ -1,8 +1,9 @@
-﻿using Domain.Enums;
+﻿using Domain.Dto.PilotsDto;
+using Domain.Enums;
 
-namespace Domain.Interfaces.PilotRepository
+namespace Domain.Dto.TeamsDto
 {
-    public class TeamPilotsRepository
+    public class TeamPilotsDto
     {
         public string Team { get; set; }
         public SingleSeaterCategory Category { get; set; }

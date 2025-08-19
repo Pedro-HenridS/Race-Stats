@@ -1,15 +1,74 @@
-﻿@using src.Components.UI.pilot_table;
+﻿@using System.Net.Http.Json;
+@using src.Components.UI.category_filter
+@using src.Components.UI.pilot_table;
+@using src.DTO.pilot;
+
+@inject HttpClient Http
 
 @page "/ranking"
 
 
 <PageTitle>Ranking</PageTitle>
-	<NavMenu></NavMenu>
-	<main class="main">
-		<PilotTable />
-	</main>
+<NavMenu></NavMenu>
+	@if (@_pilotsList != null){
+
+		<main class="main">
+
+
+		<CategoryFilter category=@_categories OnCategorySelected="OnCategorySelected" />
+		@if (_viewPilotList != null)
+		{
+			<PilotTable data=@_viewPilotList />
+		}else{
+			<p> Carregando dados..</p>
+		}
+		
+		</main>
+	}
+	else
+	{
+		<p>Carregando filtros...</p>
+	}
+
 
 
 @code {
 
+	private List<CategoryPilotsDto> _pilotsList;
+	private List<String> _categories;
+	private List<PilotItems>? _viewPilotList = null;
+
+	private String SelectedCategory;
+
+	private async Task OnCategorySelected(string clickedText)
+	{
+		SelectedCategory = clickedText;
+		SetViewList(_pilotsList, SelectedCategory);
+		Console.WriteLine(SelectedCategory);
+	}
+
+	private void SetViewList(List<CategoryPilotsDto> pilotsList, string category)
+	{
+
+		_viewPilotList = pilotsList.Where(c => c.category == category).SelectMany(c => c.pilotDTOs).ToList();
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>("http://localhost:5076/pilots");
+
+
+			_categories = _pilotsList.Select(c => c.category).ToList();
+			SetViewList(_pilotsList, _categories[0]);
+
+			Console.WriteLine(_categories);
+
+		}
+		catch(Exception er)
+		{
+			Console.WriteLine(er);
+		}
+	}
 }

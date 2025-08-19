@@ -1,2 +1,46 @@
-﻿body {
+﻿
+
+.category-container
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    width: 60vw;
+}
+
+.category  {
+    position: relative;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    color: rgba(196, 196, 196, 1);
+    font-weight: 700;
+    border: 1px solid rgba(196, 196, 196, 0.3);
+    background-clip: padding-box;
+    position: relative;
+}
+
+
+.category:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.isClicked {
+    background-color: white;
+    border: none;
+    color: #1C1C1C;
+}
+
+
+.isntClicked {
+    position: relative;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    color: rgba(196, 196, 196, 1);
+    font-weight: 700;
+    border: 1px solid rgba(196, 196, 196, 0.3);
+    background-clip: padding-box;
+    position: relative;
 }

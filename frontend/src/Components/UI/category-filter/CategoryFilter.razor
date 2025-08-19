@@ -1,5 +1,40 @@
-﻿<h3>CategoryFilter</h3>
+﻿
+
+<div class="category-container">
+	@foreach (var cate in category)
+	{
+		<div class="category @(clickedText == cate ? "isClicked" : "isntClicked")" @onclick="() => Selected(cate)">
+			@cate
+		</div>
+	}
+</div>
 
 @code {
+
+	[Parameter]
+	public List<String> category { get; set; }
+
+	[Parameter]
+	public EventCallback<String> OnCategorySelected { get; set; }
+
+	private string? clickedText = null;
+	private bool isClicked = false;
+
+	private async Task Selected(string cate)
+	{
+		if (isClicked)
+		{
+			clickedText = cate;
+			
+		}
+		else
+		{
+			clickedText = cate;
+		}
+
+		
+		await OnCategorySelected.InvokeAsync(clickedText);
+		isClicked = !isClicked;
+	}
 
 }

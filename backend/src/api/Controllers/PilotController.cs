@@ -38,9 +38,9 @@ namespace Api.Controllers
         [ProducesResponseType(typeof(List<PilotResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllGroups()
+        public async Task<IActionResult> GetAllGroups([FromQuery] string category)
         {
-            var pilots = await _getPilotsByTeam.Execute();
+            var pilots = await _getPilotsByTeam.Execute(category);
 
             return Ok(pilots);
         }

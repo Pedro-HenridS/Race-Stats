@@ -1,5 +1,9 @@
-﻿using Domain.Entities;
+﻿using Domain.Dto.PilotsDto;
+using Domain.Dto.TeamsDto;
+using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces.PilotRepository;
+using Exception;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repository.PilotRepository
@@ -14,19 +18,53 @@ namespace Infra.Repository.PilotRepository
         {
             _context = context;
         }
-        public async Task<List<Pilot>> GetPilots()
+        public async Task<List<CategoryPilotsDto>> GetPilots()
         {
-            var pilotos = await _context.Pilots.Include(t => t.Team).OrderBy(p => p.Fastestlap).ToListAsync();
+            var pilotos = await _context.Pilots.Include(t => t.Team)
+                .OrderBy(p => p.Fastestlap)
+                .GroupBy(p => p.Category)
+                .Select(g => new CategoryPilotsDto
+                {
+                    Category = g.Key,
+                    pilotDTOs = g.Select(p => new PilotDTO
+                    {
+                        Name = p.Name,
+                        Fastestlap = p.Fastestlap,
+                        Weight = p.Weight,
+                        Gender = p.Gender,
+                        Nationality = p.Nationality,
+                        Circuit = p.Circuit,
+                        TeamId = p.TeamId,
+                        Category = p.Category
+                    }).ToList()
+                })
+                .ToListAsync();
 
             return pilotos;
         }
 
-        public async Task<List<TeamPilotsRepository>> GetPilotsGroupByEquip()
+        public async Task<List<TeamPilotsDto>> GetPilotsGroupByEquip(string category)
         {
-            var pilotos = await _context.Pilots.Include(t => t.Team).GroupBy(
+
+            SingleSeaterCategory category_enum;
+
+
+
+            if (Enum.TryParse(category, out SingleSeaterCategory result))
+            {
+                category_enum = result;
+            }
+            else
+            {
+                throw new RaceException(ResourceErrorMessages.BAD_REQUEST, 404);
+            }
+
+
+
+            var pilotos = await _context.Pilots.Include(t => t.Team).Where(t => t.Category == category_enum).GroupBy(
                 p => new { p.Team.Name, p.Team.Color, p.Category })
                 .OrderBy(t => t.Key.Category)
-                .Select(g => new TeamPilotsRepository
+                .Select(g => new TeamPilotsDto
                 {
                     Team = g.Key.Name,
                     Category = g.Key.Category,

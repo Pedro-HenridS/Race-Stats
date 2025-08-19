@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces.PilotInterfaces;
-using Communication.Responses.Pilot;
+using Domain.Dto.PilotsDto;
 
 namespace Application.UseCase.Pilot
 {
@@ -12,7 +12,7 @@ namespace Application.UseCase.Pilot
             _pilotService = pilotService;
         }
 
-        public async Task<List<PilotResponse>> Execute()
+        public async Task<List<CategoryPilotResponse>> Execute()
         {
             return await _pilotService.GetAllPilotAsync();
         }

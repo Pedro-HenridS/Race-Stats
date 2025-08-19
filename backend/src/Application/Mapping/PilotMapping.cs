@@ -17,7 +17,7 @@ namespace Application.Mapping
                 Nationality = pilot.Nationality,
                 Circuit = pilot.Circuit,
                 TeamId = pilot.TeamId,
-                Category = (SingleSeaterCategory)pilot.Category
+                Category = pilot.Category.ToString()
             };
         }
     }
