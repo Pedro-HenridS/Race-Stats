@@ -14,8 +14,9 @@
 
 }
 
-.close{
+.close {
     margin-left: 1rem;
+    display: block;
 }
 
 .close:hover {
@@ -24,4 +25,8 @@
 
 .hideFlag{
     display: none;
+}
+
+.showFlag{
+    display: block;
 }
