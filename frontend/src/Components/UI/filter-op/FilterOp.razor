@@ -99,23 +99,17 @@
 
         if (filters.HasDelegate)
             await filters.InvokeAsync(selectedFilters);
+
+        StateHasChanged();
+
     }
 
     public async Task OnDeletedFlag(Dictionary<String, String> filter)
     {
 
-
-
         var key = filter.First().Key;
 
-        Console.WriteLine("Chave a deletar: ", filter.First().Key, " | Valor da chave a deletar: ", filter[key]);
-
-        foreach (var dicionario in filters_selecteds)
-        {
-            dicionario[key] = null;
-
-            Console.WriteLine(dicionario.Values);
-        }
+        filters_selecteds.RemoveAll(d => d.ContainsKey(key));
 
 
         await OnFilterOptionClicked(key, filter[key]);

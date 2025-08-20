@@ -9,5 +9,6 @@ namespace Domain.Dto.Filter
         public string? Nationality { get; set; }
         public string? Circuit { get; set; }
         public Weight? weight { get; set; }
+        public string? Search { get; set; }
     }
 }

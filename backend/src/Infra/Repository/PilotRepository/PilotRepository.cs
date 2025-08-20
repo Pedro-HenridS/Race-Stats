@@ -65,6 +65,13 @@ namespace Infra.Repository.PilotRepository
 
             }
 
+            if (!string.IsNullOrEmpty(filters.Search))
+            {
+                var term = filters.Search.ToLower();
+
+                query = query.Where(p => p.Name.ToLower() == filters.Search || p.Team.Name.ToLower() == filters.Search);
+            }
+
             var pilotos = await query
                 .GroupBy(p => p.Category)
                 .Select(g => new CategoryPilotsDto
