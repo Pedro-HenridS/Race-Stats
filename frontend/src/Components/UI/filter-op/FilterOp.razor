@@ -14,16 +14,15 @@
 						<i class="fas fa-chevron-down arrow @(optSelected.Contains(option.Key) ? ArrowClass : "")"></i>
 					</div>
 				</button>
-				<ul class="options-dropdown @(optSelected.Contains(option.Key) ? "showDropDown" : "hideDropDown")">
+				<ul class="options-dropdown @(optSelected.Contains(option.Key) ? "showDropDown" : "hideDropDown")" >
 					@foreach (String opt in option.Value)
 					{
-						<li class="">
+						<li class="" @onclick="() => OnFilterOptionClicked(option.Key, opt)">
 							@opt
 						</li>
 					}
 				</ul>
 			</div>
-			
 		}
 	</div>
 </div>
@@ -34,6 +33,8 @@
 
 	[Parameter]
 	public Dictionary<String, List<String>> options { get; set; }
+
+	public Dictionary<String, String>? selectedFilters { get; set; } = new();
 
 	public List<String> optSelected { get; set; } = new List<string>();
 
@@ -60,23 +61,26 @@
 		}
 
 		Toggle();
-
-		var newFilters = new Dictionary<String, String>
-		{
-			{"team", optSelected.Count > 0 ? optSelected.Last() : null },
-			{"gender", optSelected.Count > 0 ? optSelected.Last() : null },
-			{"nationality", optSelected.Count > 0 ? optSelected.Last() : null }
-		};
-
-		if (filters.HasDelegate)
-			await filters.InvokeAsync(newFilters);
-
 		StateHasChanged();
 
 	}
 
-	public async Task OnFilterOptionClickd()
-	{
-		
+	public async Task OnFilterOptionClicked(string key, string opt)
+	{	
+		if (selectedFilters.TryGetValue(key, out var currentValue) && currentValue == opt)
+		{
+			selectedFilters[key] = null;
+			Console.WriteLine(selectedFilters[key]);
+		}
+		else
+		{
+			selectedFilters[key] = opt;
+
+			Console.WriteLine(selectedFilters[key]);
+		}
+
+
+		if (filters.HasDelegate)
+			await filters.InvokeAsync(selectedFilters);
 	}
 }

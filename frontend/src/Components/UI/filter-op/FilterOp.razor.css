@@ -75,7 +75,7 @@ li {
     background-color: rgba(50, 50, 50, 1);
 }
 
-    li:hover {
-        cursor: pointer;
-        background-color: rgba(60, 60, 60, 1)
-    }
+li:hover {
+    cursor: pointer;
+    background-color: rgba(60, 60, 60, 1)
+}

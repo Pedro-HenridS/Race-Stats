@@ -61,6 +61,8 @@ else
 
 @code {
 
+	
+
 	private List<CategoryPilotsDto> _pilotsList;
 	private List<String> _categories;
 	private List<PilotItems>? _viewPilotList = null;
@@ -96,8 +98,10 @@ else
 	{
 		try
 		{
+
+
 			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>
-			($"http://localhost:5076/pilots?{filters.Keys}={filters.Values}&{filters.Keys}={filters.Values}&{filters.Keys}={filters.Values}");
+			($"http://localhost:5076/pilots");
 
 
 			_categories = _pilotsList.Select(c => c.category).ToList();
@@ -117,9 +121,30 @@ else
 		filterIsClicked = !filterIsClicked;
 	}
 
-	public void NewFilters(Dictionary<String, String> filtersSelected)
+	public async Task NewFilters(Dictionary<String, String> filtersSelected)
 	{
-		filters = filtersSelected;
-		Console.WriteLine(filtersSelected);
+
+		try
+		{
+			var query = String.Join("&", filtersSelected.Select(f => $"{f.Key}={f.Value}"));
+
+			Console.WriteLine(query);
+
+			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>
+			($"http://localhost:5076/pilots?{query}");
+
+
+			_categories = _pilotsList.Select(c => c.category).ToList();
+			SetViewList(_pilotsList, _categories.FirstOrDefault());
+
+			StateHasChanged();
+
+			Console.WriteLine(_categories);
+
+		}
+		catch (Exception er)
+		{
+			Console.WriteLine(er);
+		}
 	}
 }
