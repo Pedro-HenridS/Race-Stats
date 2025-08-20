@@ -1,86 +1,75 @@
 ﻿@using src.Common
 @using src.Common.Enums.Pilot
 @using src.Common.Filter
+@using src.Components.UI.filter_flag
 
 <div class="container">
-
-	<div class="op">
-		@foreach (var option in options)
-		{
-			<div class="wrapper">
-				<button class="option @(optSelected.Contains(option.Key) ? "clicked" : "isntClicked")" @onclick="() => OnOptClicked(option.Key)">
-					@option.Key
-					<div class="arrow-container">
-						<i class="fas fa-chevron-down arrow @(optSelected.Contains(option.Key) ? ArrowClass : "")"></i>
-					</div>
-				</button>
-				<ul class="options-dropdown @(optSelected.Contains(option.Key) ? "showDropDown" : "hideDropDown")" >
-					@foreach (String opt in option.Value)
-					{
-						<li class="" @onclick="() => OnFilterOptionClicked(option.Key, opt)">
-							@opt
-						</li>
-					}
-				</ul>
-			</div>
-		}
-	</div>
+    
+    <div class="op">
+        <FilterFlag filter_option=teste />
+        @foreach (var option in options)
+        {
+            <div class="wrapper">
+                <button class="option @(expandedOptions.ContainsKey(option.Key) && expandedOptions[option.Key] ? "clicked" : "isntClicked")"
+                        @onclick="() => OnOptClicked(option.Key)">
+                    @option.Key
+                    <div class="arrow-container">
+                        <i class="fas fa-chevron-down arrow @(expandedOptions.ContainsKey(option.Key) && expandedOptions[option.Key] ? "ArrowClass" : "")"></i>
+                    </div>
+                </button>
+                <ul class="options-dropdown @(expandedOptions.ContainsKey(option.Key) && expandedOptions[option.Key] ? "showDropDown" : "hideDropDown")">
+                    @foreach (string opt in option.Value)
+                    {
+                        <li @onclick="() => OnFilterOptionClicked(option.Key, opt)">
+                            @opt
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
 </div>
 
 @code {
-	[Parameter]
-	public EventCallback<Dictionary<String, String>> filters { get; set; }
+    public Dictionary<String, String> teste = new Dictionary<String, String> { { "dsd", "sdsd" } };
 
-	[Parameter]
-	public Dictionary<String, List<String>> options { get; set; }
+    [Parameter]
+    public EventCallback<Dictionary<string, string>> filters { get; set; }
 
-	public Dictionary<String, String>? selectedFilters { get; set; } = new();
+    [Parameter]
+    public Dictionary<string, List<string>> options { get; set; }
 
-	public List<String> optSelected { get; set; } = new List<string>();
+    public Dictionary<string, string>? selectedFilters { get; set; } = new();
 
-	private string ArrowClass => isExpanded ? "ArrowClass" : "";
+    public Dictionary<string, bool> expandedOptions { get; set; } = new();
 
-	public bool isExpanded = false;
+    private void OnOptClicked(string opt)
+    {
+        if (expandedOptions.ContainsKey(opt))
+        {
+            expandedOptions[opt] = !expandedOptions[opt]; 
+        }
+        else
+        {
+            expandedOptions[opt] = true; 
+        }
+        StateHasChanged();
+    }
 
-	private void Toggle()
-	{
-		isExpanded = !isExpanded;
-	}
+    public async Task OnFilterOptionClicked(string key, string opt)
+    {
+        if (selectedFilters.TryGetValue(key, out var currentValue) && currentValue == opt)
+        {
+            selectedFilters[key] = null;
+            Console.WriteLine(selectedFilters[key]);
+        }
+        else
+        {
+            selectedFilters[key] = opt;
+            Console.WriteLine(selectedFilters[key]);
+        }
 
-	public async Task OnOptClicked(String opt)
-	{
-		if (optSelected.Contains(opt))
-		{
-			optSelected.Remove(opt);
-			Console.WriteLine(opt);
-		}
-		else
-		{
-			Console.WriteLine(opt);
-			optSelected.Add(opt);
-		}
-
-		Toggle();
-		StateHasChanged();
-
-	}
-
-	public async Task OnFilterOptionClicked(string key, string opt)
-	{	
-		if (selectedFilters.TryGetValue(key, out var currentValue) && currentValue == opt)
-		{
-			selectedFilters[key] = null;
-			Console.WriteLine(selectedFilters[key]);
-		}
-		else
-		{
-			selectedFilters[key] = opt;
-
-			Console.WriteLine(selectedFilters[key]);
-		}
-
-
-		if (filters.HasDelegate)
-			await filters.InvokeAsync(selectedFilters);
-	}
+        if (filters.HasDelegate)
+            await filters.InvokeAsync(selectedFilters);
+    }
 }

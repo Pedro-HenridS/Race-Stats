@@ -1,9 +1,14 @@
-﻿
-.wrapper{
+﻿.wrapper {
     position: relative;
     display: inline-flex;
+
+
+}
+
+.op{
+    display: flex;
     flex-direction: row;
-    width: auto;
+    align-items: center;
 }
 
 .container {
@@ -15,31 +20,27 @@
     padding: 0rem 1rem 0rem 1rem;
     color: gray;
     border: none;
-
     margin-left: 1rem;
     display: inline-flex;
     flex-direction: row;
     align-items: center;
-
     width: auto;
     height: 2.5rem;
     background-color: rgba(50, 50, 50, 0.5);
 }
 
-
 .clicked {
     background-color: rgba(81, 191, 255, 1);
     color: #1C1C1C;
 }
+
 .isntClicked {
     background-color: rgba(50, 50, 50, 0.5);
     color: white;
-
 }
 
 .arrow-container {
     margin-left: 1rem;
-    
 }
 
 .arrow {
@@ -48,7 +49,6 @@
 
 .ArrowClass {
     transform: rotate(180deg);
-    
 }
 
 .options-dropdown {
@@ -57,12 +57,10 @@
     top: 100%;
     list-style: none;
     max-height: 20rem;
-    overflow-y:auto;
-    overflow-inline: hidden;
-
-    margin-left:1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-left: 1rem;
     padding-left: 0;
-
 }
 
 .showDropDown {
@@ -72,17 +70,17 @@
 }
 
     .showDropDown::-webkit-scrollbar {
-        width: 0.5rem; 
-        background-color: rgba(50, 50, 50, 1); 
+        width: 0.5rem;
+        background-color: rgba(50, 50, 50, 1);
     }
 
     .showDropDown::-webkit-scrollbar-thumb {
-        background-color: #888; 
-        border-radius: 6px; 
+        background-color: #888;
+        border-radius: 6px;
     }
 
         .showDropDown::-webkit-scrollbar-thumb:hover {
-            background-color: #555; 
+            background-color: #555;
             cursor: pointer;
         }
 
@@ -94,8 +92,6 @@
         background: rgba(50, 50, 50, 1);
     }
 
-
-
 .hideDropDown {
     display: none;
 }
@@ -106,7 +102,7 @@ li {
     background-color: rgba(50, 50, 50, 1);
 }
 
-li:hover {
-    cursor: pointer;
-    background-color: rgba(60, 60, 60, 1)
-}
+    li:hover {
+        cursor: pointer;
+        background-color: rgba(60, 60, 60, 1);
+    }

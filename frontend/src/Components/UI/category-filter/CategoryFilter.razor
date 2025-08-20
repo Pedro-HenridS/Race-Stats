@@ -13,13 +13,19 @@
 @code {
 
 	[Parameter]
-	public List<String> category { get; set; }
+	public List<String> category { get; set; } = [];
 
 	[Parameter]
 	public EventCallback<String> OnCategorySelected { get; set; }
 
-	private string? clickedText = null;
+	private string? clickedText;
 	private bool isClicked = false;
+
+	protected override void OnInitialized()
+	{
+		clickedText = category.Count == 0 ? null : category[0];
+	}
+
 
 	private async Task Selected(string cate)
 	{
