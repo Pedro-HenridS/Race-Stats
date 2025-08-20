@@ -74,9 +74,9 @@ else
 	private Dictionary<String, String> filters = new();
 
 	private Dictionary<String, List<String>> options_filters => new ()
-	{ {"Nacionalidades", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => p.Nationality).Distinct()).ToList()},
-	  {"Gênero", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => ((Gender)p.Gender).ToString())).Distinct().ToList()},
-	  {"Pistas", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => p.Circuit).Distinct()).ToList()}};
+	{ {"Nationality", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => p.Nationality).Distinct()).ToList()},
+	  {"Gender", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => ((Gender)p.Gender).ToString())).Distinct().ToList()},
+	  {"Circuit", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => p.Circuit).Distinct()).ToList()}};
 
 
 	private bool filterIsClicked = false;
