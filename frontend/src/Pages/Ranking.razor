@@ -99,8 +99,7 @@ else
 		{
 
 
-			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>
-			($"http://localhost:5076/pilots");
+			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>($"http://localhost:5076/pilots");
 
 			_teamsList = await Http.GetFromJsonAsync<List<TeamsDto>>("http://localhost:5076/teams");
 
