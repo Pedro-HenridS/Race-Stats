@@ -126,7 +126,7 @@ else
 
 		try
 		{
-			var query = String.Join("&", filtersSelected.Select(f => $"{f.Key}={f.Value}"));
+			var query = String.Join("&", filtersSelected.Select(f => $"{f.Key.ToLower()}={f.Value}"));
 
 			Console.WriteLine(query);
 
