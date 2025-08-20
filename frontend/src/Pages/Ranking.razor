@@ -69,10 +69,11 @@ else
 
 	private List<String> Nacionalidades;
 
-	private Filters filters = new();
+	private Dictionary<String, String> filters = new();
+
 	private Dictionary<String, List<String>> options_filters => new ()
 	{ {"Nacionalidades", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => p.Nationality).Distinct()).ToList()},
-	  {"Gênero", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => ((Gender)p.Gender).ToString()).Distinct()).ToList()},
+	  {"Gênero", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => ((Gender)p.Gender).ToString())).Distinct().ToList()},
 	  {"Pistas", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => p.Circuit).Distinct()).ToList()}};
 
 
@@ -96,7 +97,7 @@ else
 		try
 		{
 			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>
-			($"http://localhost:5076/pilots?team={filters.Team}&gender={filters.Gender}&nationality={filters.Nationality}");
+			($"http://localhost:5076/pilots?{filters.Keys}={filters.Values}&{filters.Keys}={filters.Values}&{filters.Keys}={filters.Values}");
 
 
 			_categories = _pilotsList.Select(c => c.category).ToList();
@@ -116,7 +117,7 @@ else
 		filterIsClicked = !filterIsClicked;
 	}
 
-	public void NewFilters(Filters filtersSelected)
+	public void NewFilters(Dictionary<String, String> filtersSelected)
 	{
 		filters = filtersSelected;
 		Console.WriteLine(filtersSelected);

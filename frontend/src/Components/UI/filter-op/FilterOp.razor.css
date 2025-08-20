@@ -1,4 +1,12 @@
-﻿.container {
+﻿
+.wrapper{
+    position: relative;
+    display: inline-flex;
+    flex-direction: row;
+    width: auto;
+}
+
+.container {
     display: flex;
     width: auto;
 }
@@ -42,3 +50,32 @@
     transform: rotate(180deg);
     
 }
+
+.options-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    list-style: none;
+    width: ;
+}
+
+.showDropDown {
+    display: block;
+    position: absolute;
+    z-index: 2;
+}
+
+.hideDropDown{
+    display: none;
+}
+
+li {
+    width: auto;
+    padding: 0.5rem;
+    background-color: rgba(50, 50, 50, 1);
+}
+
+    li:hover {
+        cursor: pointer;
+        background-color: rgba(60, 60, 60, 1)
+    }

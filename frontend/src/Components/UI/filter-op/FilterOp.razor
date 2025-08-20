@@ -7,28 +7,30 @@
 	<div class="op">
 		@foreach (var option in options)
 		{
-			<button class="option @(optSelected.Contains(option.Key) ? "clicked" : "isntClicked")" @onclick="() => OnOptClicked(option.Key)">
-				@option.Key
-				<div class="arrow-container">
-					<i class="fas fa-chevron-down arrow @(optSelected.Contains(option.Key) ? @ArrowClass : "")"></i>
-				</div>
-				<ul>
+			<div class="wrapper">
+				<button class="option @(optSelected.Contains(option.Key) ? "clicked" : "isntClicked")" @onclick="() => OnOptClicked(option.Key)">
+					@option.Key
+					<div class="arrow-container">
+						<i class="fas fa-chevron-down arrow @(optSelected.Contains(option.Key) ? ArrowClass : "")"></i>
+					</div>
+				</button>
+				<ul class="options-dropdown @(optSelected.Contains(option.Key) ? "showDropDown" : "hideDropDown")">
 					@foreach (String opt in option.Value)
 					{
-						<li>
+						<li class="">
 							@opt
 						</li>
 					}
-					
 				</ul>
-			</button>
+			</div>
+			
 		}
 	</div>
 </div>
 
 @code {
 	[Parameter]
-	public EventCallback<Filters> filters { get; set; }
+	public EventCallback<Dictionary<String, String>> filters { get; set; }
 
 	[Parameter]
 	public Dictionary<String, List<String>> options { get; set; }
@@ -50,8 +52,6 @@
 		{
 			optSelected.Remove(opt);
 			Console.WriteLine(opt);
-
-
 		}
 		else
 		{
@@ -61,11 +61,11 @@
 
 		Toggle();
 
-		var newFilters = new Filters
+		var newFilters = new Dictionary<String, String>
 		{
-			Team = optSelected.Count > 0 ? optSelected.Last() : null,
-			Gender = optSelected.Count > 0 ? Enum.Parse<Gender>(optSelected.Last()) : (Gender?)null,
-			Nationality = optSelected.Count > 0 ? optSelected.Last() : null
+			{"team", optSelected.Count > 0 ? optSelected.Last() : null },
+			{"gender", optSelected.Count > 0 ? optSelected.Last() : null },
+			{"nationality", optSelected.Count > 0 ? optSelected.Last() : null }
 		};
 
 		if (filters.HasDelegate)
@@ -75,5 +75,8 @@
 
 	}
 
-
+	public async Task OnFilterOptionClickd()
+	{
+		
+	}
 }
