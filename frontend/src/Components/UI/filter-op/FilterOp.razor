@@ -1,16 +1,26 @@
-﻿@using src.Common.Enums.Pilot
+﻿@using src.Common
+@using src.Common.Enums.Pilot
 @using src.Common.Filter
 
 <div class="container">
 
 	<div class="op">
-		@foreach (string opt in options)
+		@foreach (var option in options)
 		{
-			<button class="option @(optSelected.Contains(opt) ? "clicked" : "isntClicked")" @onclick="() => OnOptClicked(opt)">
-				@opt
+			<button class="option @(optSelected.Contains(option.Key) ? "clicked" : "isntClicked")" @onclick="() => OnOptClicked(option.Key)">
+				@option.Key
 				<div class="arrow-container">
-					<i class="fas fa-chevron-down arrow @(optSelected.Contains(opt) ? @ArrowClass : "")"></i>
+					<i class="fas fa-chevron-down arrow @(optSelected.Contains(option.Key) ? @ArrowClass : "")"></i>
 				</div>
+				<ul>
+					@foreach (String opt in option.Value)
+					{
+						<li>
+							@opt
+						</li>
+					}
+					
+				</ul>
 			</button>
 		}
 	</div>
@@ -21,7 +31,7 @@
 	public EventCallback<Filters> filters { get; set; }
 
 	[Parameter]
-	public List<String> options { get; set; }
+	public Dictionary<String, List<String>> options { get; set; }
 
 	public List<String> optSelected { get; set; } = new List<string>();
 
