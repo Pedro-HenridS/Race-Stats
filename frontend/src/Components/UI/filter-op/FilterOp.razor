@@ -6,7 +6,16 @@
 <div class="container">
     
     <div class="op">
-        <FilterFlag filter_option=teste />
+
+        @if(filters_selecteds != null)
+        {
+            @foreach (var filter in filters_selecteds)
+            {
+                <FilterFlag filter_option=filter />
+            }
+        }
+        
+        
         @foreach (var option in options)
         {
             <div class="wrapper">
@@ -31,7 +40,7 @@
 </div>
 
 @code {
-    public Dictionary<String, String> teste = new Dictionary<String, String> { { "dsd", "sdsd" } };
+    public List<Dictionary<String, String>> filters_selecteds = new ();
 
     [Parameter]
     public EventCallback<Dictionary<string, string>> filters { get; set; }
@@ -56,17 +65,36 @@
         StateHasChanged();
     }
 
-    public async Task OnFilterOptionClicked(string key, string opt)
+    public async Task OnFilterOptionClicked(String key, String opt)
     {
         if (selectedFilters.TryGetValue(key, out var currentValue) && currentValue == opt)
-        {
+        {   
+
             selectedFilters[key] = null;
-            Console.WriteLine(selectedFilters[key]);
+
+            if (filters_selecteds != null)
+            {
+                filters_selecteds.Select(d => d.Remove(key));
+            }
+
         }
         else
         {
             selectedFilters[key] = opt;
-            Console.WriteLine(selectedFilters[key]);
+
+            if (filters_selecteds.Any(d => d.ContainsKey(key)))
+            {
+
+                var filter = filters_selecteds.FirstOrDefault(d => d.ContainsKey(key));
+                filter[key] = opt;
+            }
+            else
+            {
+                var filterTag = new Dictionary<String, String> { { key, opt } };
+                filters_selecteds.Add(filterTag);
+            }
+
+            
         }
 
         if (filters.HasDelegate)

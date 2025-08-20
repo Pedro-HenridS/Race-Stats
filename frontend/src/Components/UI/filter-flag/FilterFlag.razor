@@ -1,6 +1,6 @@
 ﻿<div class="flag @(_isVisible ? "" : "hideFlag")">
-	<div class="text ">
-		@filter_option.Values
+	<div class="text">
+		@filter_option.First().Value
 	</div>
 	<div class="close" @onclick="HideFlag" >x</div>
 </div>
