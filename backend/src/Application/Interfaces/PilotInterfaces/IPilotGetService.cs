@@ -7,5 +7,6 @@ namespace Application.Interfaces.PilotInterfaces
     {
         public Task<List<CategoryPilotResponse>> GetFilteredAsync(PilotFilterRequest filters);
 
+
     }
 }

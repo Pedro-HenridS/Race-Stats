@@ -34,7 +34,7 @@
 		@if (!filterOp)
 		{
 			<section class="table teams">
-				@foreach (Teams team in teams)
+			@foreach (TeamsDto team in teams)
 				{
 					<div class="team" >
 						<TeamCard Teams=@team/>
@@ -55,7 +55,7 @@
 	[Parameter]
 	public bool filterOp { get; set; } = true;
 
-	private List<Teams> teams = new();
+	private List<TeamsDto> teams = new();
 
 
 }

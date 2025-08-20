@@ -11,6 +11,7 @@ namespace Domain.Dto.PilotsDto
         public string Nationality { get; set; } = string.Empty;
         public string Circuit { get; set; } = string.Empty;
         public Guid TeamId { get; set; }
+        public string TeamName { get; set; } = string.Empty;
         public SingleSeaterCategory Category { get; set; }
     }
 }

@@ -11,5 +11,6 @@ namespace Domain.Interfaces.PilotRepository
         public Task UpdatePilot(Pilot pilot);
         public Task<Pilot> GetPilotById(Guid id);
         public Task<List<CategoryPilotsDto>> GetFilteredAsync(PilotFilterRequest filters);
+
     }
 }

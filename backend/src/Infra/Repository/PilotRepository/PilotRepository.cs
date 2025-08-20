@@ -1,6 +1,7 @@
 ﻿using Domain.Dto.Filter;
 using Domain.Dto.PilotsDto;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces.PilotRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,14 +27,14 @@ namespace Infra.Repository.PilotRepository
             _context.Pilots.Update(pilot);
             await _context.SaveChangesAsync();
         }
-
         public async Task<List<CategoryPilotsDto>> GetFilteredAsync(PilotFilterRequest filters)
         {
             var query = _context.Pilots.Include(t => t.Team).AsQueryable();
 
-            if (!string.IsNullOrEmpty(filters.Team))
+            if (!string.IsNullOrEmpty(filters.Team.ToString()))
             {
-                query = query.Where(p => p.Team.Name == filters.Team);
+                query = query.Where(p => p.Team.Id == filters.Team);
+
             }
             if (!string.IsNullOrEmpty(filters.Gender.ToString()))
             {
@@ -42,6 +43,26 @@ namespace Infra.Repository.PilotRepository
             if (!string.IsNullOrEmpty(filters.Nationality))
             {
                 query = query.Where(p => p.Nationality == filters.Nationality);
+            }
+            if (!string.IsNullOrEmpty(filters.Circuit))
+            {
+                query = query.Where(p => p.Circuit == filters.Circuit);
+            }
+            if (!string.IsNullOrEmpty(filters.weight.ToString()))
+            {
+                if (filters.weight == (Weight)0)
+                {
+                    query = query.Where(p => p.Weight <= 70);
+                }
+                else if (filters.weight == (Weight)1)
+                {
+                    query = query.Where(p => p.Weight <= 75 && p.Weight > 70);
+                }
+                else if (filters.weight == (Weight)2)
+                {
+                    query = query.Where(p => p.Weight > 75);
+                }
+
             }
 
             var pilotos = await query
@@ -58,6 +79,7 @@ namespace Infra.Repository.PilotRepository
                         Nationality = p.Nationality,
                         Circuit = p.Circuit,
                         TeamId = p.TeamId,
+                        TeamName = p.Team.Name,
                         Category = p.Category
                     }).ToList()
                 })
@@ -65,6 +87,5 @@ namespace Infra.Repository.PilotRepository
 
             return pilotos;
         }
-
     }
 }

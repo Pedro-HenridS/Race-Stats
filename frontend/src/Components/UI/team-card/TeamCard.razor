@@ -4,11 +4,11 @@
 <div class="team-item">
 	
 	<div class="equip"> 
-		@Teams.Team
+		@Teams
 	</div>
 
 	<div class="pilots">
-		@foreach (PilotItems pilot in Teams.Pilots)
+		@* @foreach (PilotItems pilot in Teams.)
 		{
 			<div class="pilot">
 				<PilotCard pilot=@pilot />
@@ -16,7 +16,7 @@
 			</div>
 
 	
-		}
+		} *@
 	</div>
 	
 
@@ -25,7 +25,7 @@
 @code {
 
 	[Parameter]
-	public Teams Teams { get; set; }
+	public TeamsDto Teams { get; set; }
 
 	
 }
