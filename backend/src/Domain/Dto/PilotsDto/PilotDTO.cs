@@ -4,6 +4,7 @@ namespace Domain.Dto.PilotsDto
 {
     public class PilotDTO
     {
+        public Guid? Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public TimeSpan Fastestlap { get; set; }
         public decimal Weight { get; set; }

@@ -31,11 +31,6 @@ namespace Infra.Repository.PilotRepository
         {
             var query = _context.Pilots.Include(t => t.Team).AsQueryable();
 
-            if (!string.IsNullOrEmpty(filters.Team.ToString()))
-            {
-                query = query.Where(p => p.Team.Id == filters.Team);
-
-            }
             if (!string.IsNullOrEmpty(filters.Gender.ToString()))
             {
                 query = query.Where(p => p.Gender == filters.Gender);

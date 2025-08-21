@@ -54,9 +54,6 @@ else
 
 
 @code {
-
-
-
 	private List<CategoryPilotsDto> _pilotsList;
 	private List<TeamsDto> _teamsList;
 
@@ -67,7 +64,7 @@ else
 
 	private List<String> Nacionalidades;
 
-	private Dictionary<String, object> filters = new();
+	private Dictionary<String, String> filters = new();
 
 	private Dictionary<String, List<String>> options_filters;
 
@@ -91,8 +88,6 @@ else
 	{
 		try
 		{
-
-
 			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>($"http://localhost:5076/pilots");
 
 			_teamsList = await Http.GetFromJsonAsync<List<TeamsDto>>("http://localhost:5076/teams");
@@ -105,7 +100,6 @@ else
 			{ {"Nationality", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => p.Nationality).Distinct()).ToList()},
 			  {"Gender", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => ((Gender)p.Gender).ToString())).Distinct().ToList()},
 			  {"Circuit", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => p.Circuit).Distinct()).ToList()},
-			  {"Team", _teamsList.Select(p => p.Name).ToList()},
 			  {"Weight", ["Light", "Medium", "Heavy"]}
 			};
 
@@ -123,32 +117,31 @@ else
 
 	public async Task NewFilters(Dictionary<String, String> filtersSelected)
 	{
-
 		try
-		{	
-
-			foreach(var team in _teamsList)
+		{
+			// Se tiver filtro de time, converte Name -> Id aqui
+			if (filtersSelected.ContainsKey("Team"))
 			{
-				if (filtersSelected.ContainsKey("Team") && filtersSelected["Team"] == team.Name)
+				var teamName = filtersSelected["Team"];
+				var team = _teamsList.FirstOrDefault(t => t.Name == teamName);
+
+				if (team != null)
 				{
 					filtersSelected["Team"] = team.Id.ToString();
 				}
 			}
+
 			var query = String.Join("&", filtersSelected.Select(f => $"{f.Key.ToLower()}={f.Value}"));
 
 			Console.WriteLine(query);
 
 			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>
-			($"http://localhost:5076/pilots?{query}");
-
+				($"http://localhost:5076/pilots?{query}");
 
 			_categories = _pilotsList.Select(c => c.category).ToList();
 			SetViewList(_pilotsList, _categories.FirstOrDefault());
 
 			StateHasChanged();
-
-			Console.WriteLine(_categories);
-
 		}
 		catch (Exception er)
 		{

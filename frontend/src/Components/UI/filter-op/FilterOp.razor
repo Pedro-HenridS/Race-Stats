@@ -43,7 +43,7 @@
     public List<Dictionary<String, String>> filters_selecteds = new ();
 
     [Parameter]
-    public EventCallback<Dictionary<string, string>> filters { get; set; }
+    public EventCallback<Dictionary<String, String>> filters { get; set; }
 
     [Parameter]
     public Dictionary<string, List<string>> options { get; set; }
@@ -52,30 +52,29 @@
 
     public Dictionary<string, bool> expandedOptions { get; set; } = new();
 
-    private void OnOptClicked(string opt)
+    private void OnOptClicked(string key)
     {
-        if (expandedOptions.ContainsKey(opt))
+        if (expandedOptions.ContainsKey(key))
         {
-            expandedOptions.Select(o => expandedOptions.Remove(o.Key));
-
-            expandedOptions[opt] = !expandedOptions[opt]; 
-
+            expandedOptions[key] = !expandedOptions[key];
         }
         else
         {
-            expandedOptions.Select(o => expandedOptions.Remove(o.Key));
-            expandedOptions[opt] = true; 
+            expandedOptions[key] = true;
         }
+
         StateHasChanged();
     }
 
     public async Task OnFilterOptionClicked(String key, String opt)
     {
         if (selectedFilters.TryGetValue(key, out var currentValue) && currentValue == opt)
-        {
+        {   
+
+            // Desativa o drop-down do filtro
             OnOptClicked(key);
 
-            selectedFilters[key] = null;
+            selectedFilters.Remove(key);
 
             if (filters_selecteds != null)
             {

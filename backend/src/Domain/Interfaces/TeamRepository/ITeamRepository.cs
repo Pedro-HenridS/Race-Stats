@@ -1,9 +1,9 @@
-﻿using Domain.Entities;
+﻿using Domain.Dto.TeamsDto;
 
 namespace Domain.Interfaces.TeamRepository
 {
     public interface ITeamRepository
     {
-        public Task<List<Team>> GetTeams();
+        public Task<List<TeamPilotsDto>> GetTeams();
     }
 }
