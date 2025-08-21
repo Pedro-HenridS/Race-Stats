@@ -1,9 +1,12 @@
-﻿namespace src.DTO.teams
+﻿using src.DTO.pilot;
+
+namespace src.DTO.teams
 {
     public class TeamsDto
     {
         public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public DateOnly CreatedAt { get; set; }
+        public string Team { get; set; } = string.Empty;
+        public string Color { get; set; }
+        public List<PilotItems> Pilots { get; set; }
     }
 }

@@ -90,9 +90,6 @@ else
 		{
 			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>($"http://localhost:5076/pilots");
 
-			_teamsList = await Http.GetFromJsonAsync<List<TeamsDto>>("http://localhost:5076/teams");
-
-
 			_categories = _pilotsList.Select(c => c.category).ToList();
 			SetViewList(_pilotsList, _categories[0]);
 
@@ -119,24 +116,12 @@ else
 	{
 		try
 		{
-			// Se tiver filtro de time, converte Name -> Id aqui
-			if (filtersSelected.ContainsKey("Team"))
-			{
-				var teamName = filtersSelected["Team"];
-				var team = _teamsList.FirstOrDefault(t => t.Name == teamName);
-
-				if (team != null)
-				{
-					filtersSelected["Team"] = team.Id.ToString();
-				}
-			}
 
 			var query = String.Join("&", filtersSelected.Select(f => $"{f.Key.ToLower()}={f.Value}"));
 
 			Console.WriteLine(query);
 
-			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>
-				($"http://localhost:5076/pilots?{query}");
+			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>($"http://localhost:5076/pilots?{query}");
 
 			_categories = _pilotsList.Select(c => c.category).ToList();
 			SetViewList(_pilotsList, _categories.FirstOrDefault());

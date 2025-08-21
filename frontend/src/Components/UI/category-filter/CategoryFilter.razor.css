@@ -1,24 +1,43 @@
-﻿
-
-.category-container
-{
-    display: flex;
+﻿.category-container {
+    display: inline-flex;
     flex-direction: row;
     align-items: start;
-    justify-content: space-between;
-
-    width: 42vw;
+    justify-content: flex-start;
+    max-width: 70vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #444 transparent;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    white-space: nowrap;
+    width: auto;
 }
 
-.category  {
+&::-webkit-scrollbar {
+    height: 6px;
+}
+
+&::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+&::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 3px;
+}
+
+
+.category {
+    display: inline-flex;
     position: relative;
     padding: 0.5rem 1rem;
     border-radius: 1rem;
     color: rgba(196, 196, 196, 1);
     font-weight: 700;
     border: 1px solid rgba(196, 196, 196, 0.3);
-    background-clip: padding-box;
-    position: relative;
+    margin-right: 1rem;
+    width: auto;
 }
 
 

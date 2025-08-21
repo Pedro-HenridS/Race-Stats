@@ -1,11 +1,42 @@
 ﻿@inject HttpClient Http
 
 @page "/teams"
+@using src.Components.UI.category_filter
+@using src.Components.UI.team_card
+@using src.DTO.teams
 
-<main>
 
+<PageTitle>Teams</PageTitle>
+<NavMenu></NavMenu>
+<main class="main">
+	<section class="category-container">
+		<CategoryFilter category=@teams.Select(t => t.Team).ToList()/>
+	</section>
+	<section class="table-container">
+		<ul class="teams-table">
+			@foreach (TeamsDto team in teams)
+			{
+				<li class="team">
+					<TeamCard Teams=team />
+				</li>
+				
+			}
+		</ul>
+
+		
+	</section>
+	
+	
 </main>
 
 @code {
+
+	public List<TeamsDto> teams;
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		teams = await Http.GetFromJsonAsync<List<TeamsDto>>("http://localhost:5076/teams");
+	}
 
 }

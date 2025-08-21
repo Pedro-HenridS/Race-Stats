@@ -28,6 +28,7 @@ namespace Application.Services.Teams
 
             List<TeamResponse> response = teams.Select(t => new TeamResponse
             {
+                Id = t.Id,
                 Team = t.Team,
                 Color = t.Color,
                 Pilots = t.Pilots.Select(p => new PilotResponse

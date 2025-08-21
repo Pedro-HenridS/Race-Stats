@@ -22,6 +22,7 @@ namespace Infra.Repository.TeamRepository
                 .Include(t => t.Pilots)
                 .Select(t => new TeamPilotsDto
                 {
+                    Id = t.Id,
                     Team = t.Name,
                     Color = t.Color,
                     Pilots = t.Pilots.Select(p => new PilotDTO

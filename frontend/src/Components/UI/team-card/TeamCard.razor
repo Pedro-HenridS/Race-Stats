@@ -4,19 +4,18 @@
 <div class="team-item">
 	
 	<div class="equip"> 
-		@Teams
+		@Teams.Team
 	</div>
 
-	<div class="pilots">
-		@* @foreach (PilotItems pilot in Teams.)
-		{
-			<div class="pilot">
-				<PilotCard pilot=@pilot />
-
-			</div>
-
-	
-		} *@
+	<div class="container">
+		<ul class="table">
+		@foreach (PilotItems pilot in Teams.Pilots)
+			{
+				<li class="pilots">
+					<PilotCard pilot=@pilot />
+				</li>
+			}
+		</ul>
 	</div>
 	
 
