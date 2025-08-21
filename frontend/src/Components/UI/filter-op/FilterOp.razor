@@ -56,10 +56,14 @@
     {
         if (expandedOptions.ContainsKey(opt))
         {
+            expandedOptions.Select(o => expandedOptions.Remove(o.Key));
+
             expandedOptions[opt] = !expandedOptions[opt]; 
+
         }
         else
         {
+            expandedOptions.Select(o => expandedOptions.Remove(o.Key));
             expandedOptions[opt] = true; 
         }
         StateHasChanged();
@@ -68,7 +72,8 @@
     public async Task OnFilterOptionClicked(String key, String opt)
     {
         if (selectedFilters.TryGetValue(key, out var currentValue) && currentValue == opt)
-        {   
+        {
+            OnOptClicked(key);
 
             selectedFilters[key] = null;
 
@@ -80,6 +85,7 @@
         }
         else
         {
+            OnOptClicked(key);
             selectedFilters[key] = opt;
 
             if (filters_selecteds.Any(d => d.ContainsKey(key)))

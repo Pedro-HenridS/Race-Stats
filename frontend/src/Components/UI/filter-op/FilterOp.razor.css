@@ -39,6 +39,10 @@
     color: white;
 }
 
+.isntClicked ul{
+    display: none;
+}
+
 .arrow-container {
     margin-left: 1rem;
 }
