@@ -18,11 +18,19 @@
 	public EventCallback<String> OnCategorySelected { get; set; }
 
 	private string? clickedText;
-	private bool isClicked = false;
+
+	[Parameter]
+	public bool isClicked { get; set; } = false;
 
 	protected override void OnInitialized()
 	{
 		clickedText = category.Count == 0 ? null : category[0];
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		isClicked = false;
+		StateHasChanged();
 	}
 
 
@@ -30,17 +38,23 @@
 	{
 		if (isClicked)
 		{
-			clickedText = cate;
-			
+			clickedText = string.Empty;
+			isClicked = false;
+
+			Console.WriteLine(clickedText);
+
 		}
 		else
 		{
 			clickedText = cate;
+			isClicked = true;
+			Console.WriteLine(clickedText);
+
 		}
 
 		
 		await OnCategorySelected.InvokeAsync(clickedText);
-		isClicked = !isClicked;
+		
 	}
 
 }

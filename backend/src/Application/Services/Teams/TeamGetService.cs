@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.TeamInterfaces;
 using Communication.Enums;
+using Communication.Requests.Team;
 using Communication.Responses.Pilot;
 using Communication.Responses.Team;
 using Domain.Interfaces.TeamRepository;
@@ -17,9 +18,9 @@ namespace Application.Services.Teams
         {
             _pilotRepository = pilotRepository;
         }
-        public async Task<List<TeamResponse>> GetTeams()
+        public async Task<List<TeamResponse>> GetTeams(TeamFilterRequest filter)
         {
-            var teams = await _pilotRepository.GetTeams();
+            var teams = await _pilotRepository.GetTeams(new Domain.Dto.Filter.TeamFilterRequest { TeamId = filter.Team ?? null });
 
             if (teams is null)
             {

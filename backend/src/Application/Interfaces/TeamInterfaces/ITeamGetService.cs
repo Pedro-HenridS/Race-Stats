@@ -1,9 +1,10 @@
-﻿using Communication.Responses.Team;
+﻿using Communication.Requests.Team;
+using Communication.Responses.Team;
 
 namespace Application.Interfaces.TeamInterfaces
 {
     public interface ITeamGetService
     {
-        public Task<List<TeamResponse>> GetTeams();
+        public Task<List<TeamResponse>> GetTeams(TeamFilterRequest filter);
     }
 }

@@ -10,7 +10,7 @@
 <NavMenu></NavMenu>
 <main class="main">
 	<section class="category-container">
-		<CategoryFilter category=@teams.Select(t => t.Team).ToList()/>
+		<CategoryFilter category=@static_teams_list.Where(t => t.Pilots.Count > 0).Select(t => t.Team).ToList() OnCategorySelected="UpdateByFilter" isClicked=@desative_selection />
 	</section>
 	<section class="table-container">
 		<ul class="teams-table">
@@ -19,24 +19,57 @@
 				<li class="team">
 					<TeamCard Teams=team />
 				</li>
-				
 			}
 		</ul>
-
-		
 	</section>
-	
-	
 </main>
 
 @code {
 
 	public List<TeamsDto> teams;
 
+	public String Filter_Opt = string.Empty;
+
+	public List<TeamsDto> static_teams_list;
+
+	public String? Last_Selected = null;
+
+	public bool desative_selection = false;
 
 	protected override async Task OnInitializedAsync()
 	{
 		teams = await Http.GetFromJsonAsync<List<TeamsDto>>("http://localhost:5076/teams");
+		static_teams_list = teams;
 	}
 
+	public async Task UpdateByFilter(String filter_opt)
+	{
+
+		if (Last_Selected == filter_opt)
+		{
+			teams = await Http.GetFromJsonAsync<List<TeamsDto>>($"http://localhost:5076/teams?");
+
+			desative_selection = false;
+
+			Last_Selected = null;
+
+		}
+		else
+		{
+			Console.WriteLine(filter_opt);
+
+			var filter_id = static_teams_list
+			.Where(t => t.Team == filter_opt)
+			.Select(t => t.Id)
+			.FirstOrDefault()
+			.ToString();
+
+			Console.WriteLine(filter_id);
+
+			teams = await Http.GetFromJsonAsync<List<TeamsDto>>($"http://localhost:5076/teams?team={filter_id}");
+			
+			Last_Selected = filter_opt;
+		}
+		StateHasChanged();
+	}
 }

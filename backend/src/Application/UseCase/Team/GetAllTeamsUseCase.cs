@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.TeamInterfaces;
+using Communication.Requests.Team;
 using Communication.Responses.Team;
 
 namespace Application.UseCase.Team
@@ -12,9 +13,9 @@ namespace Application.UseCase.Team
             _teamGetService = teamGetService;
         }
 
-        public async Task<List<TeamResponse>> Execute()
+        public async Task<List<TeamResponse>> Execute(TeamFilterRequest filter)
         {
-            return await _teamGetService.GetTeams();
+            return await _teamGetService.GetTeams(filter);
         }
     }
 }

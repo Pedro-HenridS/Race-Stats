@@ -4,14 +4,29 @@
     height: auto;
 }
 
-.pilots{
+.table {
+    margin-bottom: 0;
+    
+}
+
+.pilots {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    color: white;
     width: 100%;
 }
 
+.pilots:hover{
+    cursor: pointer;
+}
+
 .container {
-    background: rgba(255, 255, 255, 0.2);
     color: white;
+}
+
+.equip{
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
 }

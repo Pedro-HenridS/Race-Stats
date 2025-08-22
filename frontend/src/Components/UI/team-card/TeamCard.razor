@@ -3,9 +3,11 @@
 @using src.DTO.teams
 <div class="team-item">
 	
-	<div class="equip"> 
-		@Teams.Team
-	</div>
+	@if (Teams.Pilots.Count > 0){
+		<div class="equip" style="background: linear-gradient(to right, @Teams.Color, transparent);">
+				@Teams.Team
+		</div>
+	}
 
 	<div class="container">
 		<ul class="table">

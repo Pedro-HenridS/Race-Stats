@@ -9,7 +9,28 @@
     width: 70vw;
 }
 
+.teams-table {
+    list-style: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding-left: 0;
+}
+
 .table-container {
     width: 70vw;
 }
 
+.teams-table .team:nth-child(odd) {
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.4));
+}
+
+.teams-table .team:nth-child(even) {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.4));
+}
+
+.teams-table .team:hover {
+    background-color: rgba(255,255,255,0.3);
+}
+
+.team{
+    margin-bottom: 0;
+}
