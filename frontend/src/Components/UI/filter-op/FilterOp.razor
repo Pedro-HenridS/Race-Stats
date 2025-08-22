@@ -1,21 +1,9 @@
 ﻿@using src.Common
 @using src.Common.Enums.Pilot
 @using src.Common.Filter
-@using src.Components.UI.filter_flag
 
 <div class="container">
-    
     <div class="op">
-
-        @if(filters_selecteds != null)
-        {
-            @foreach (var filter in filters_selecteds)
-            {
-                <FilterFlag closed_filter=OnDeletedFlag filter_option=filter />
-            }
-        }
-        
-        
         @foreach (var option in options)
         {
             <div class="wrapper">
@@ -29,10 +17,12 @@
                 <ul class="options-dropdown @(expandedOptions.ContainsKey(option.Key) && expandedOptions[option.Key] ? "showDropDown" : "hideDropDown")">
                     @foreach (string opt in option.Value)
                     {
-                        <li @onclick="() => OnFilterOptionClicked(option.Key, opt)">
-                            @opt
-                        </li>
-                    }
+                        <li @onclick="() => OnFilterOptionClicked(option.Key, opt)" class="@(
+                                                                                    filters_selecteds.Any(d => d.ContainsKey(option.Key)) &&
+                                                                                    filters_selecteds.Any(d => d.ContainsValue(opt)) ? "selected" : "noSelected")">
+                    @opt
+                </li>
+                                }
                 </ul>
             </div>
         }
@@ -40,10 +30,10 @@
 </div>
 
 @code {
-    public List<Dictionary<String, String>> filters_selecteds = new ();
+    public List<Dictionary<string, string>> filters_selecteds = new();
 
     [Parameter]
-    public EventCallback<Dictionary<String, String>> filters { get; set; }
+    public EventCallback<Dictionary<string, string>> filters { get; set; }
 
     [Parameter]
     public Dictionary<string, List<string>> options { get; set; }
@@ -66,60 +56,36 @@
         StateHasChanged();
     }
 
-    public async Task OnFilterOptionClicked(String key, String opt)
+    public async Task OnFilterOptionClicked(string key, string opt)
     {
         if (selectedFilters.TryGetValue(key, out var currentValue) && currentValue == opt)
-        {   
-
-            // Desativa o drop-down do filtro
+        {
+            // Clique na mesma opção → remove filtro
             OnOptClicked(key);
-
             selectedFilters.Remove(key);
 
-            if (filters_selecteds != null)
-            {
-                filters_selecteds.Select(d => d.Remove(key));
-            }
-
+            filters_selecteds.RemoveAll(d => d.ContainsKey(key));
         }
         else
         {
+            // Seleção de nova opção
             OnOptClicked(key);
             selectedFilters[key] = opt;
 
             if (filters_selecteds.Any(d => d.ContainsKey(key)))
             {
-
-                var filter = filters_selecteds.FirstOrDefault(d => d.ContainsKey(key));
+                var filter = filters_selecteds.First(d => d.ContainsKey(key));
                 filter[key] = opt;
             }
             else
             {
-                var filterTag = new Dictionary<String, String> { { key, opt } };
-                filters_selecteds.Add(filterTag);
+                filters_selecteds.Add(new Dictionary<string, string> { { key, opt } });
             }
-
-
         }
 
         if (filters.HasDelegate)
             await filters.InvokeAsync(selectedFilters);
 
         StateHasChanged();
-
-    }
-
-    public async Task OnDeletedFlag(Dictionary<String, String> filter)
-    {
-
-        var key = filter.First().Key;
-
-        filters_selecteds.RemoveAll(d => d.ContainsKey(key));
-
-
-        await OnFilterOptionClicked(key, filter[key]);
-
-        StateHasChanged();
-
     }
 }

@@ -96,7 +96,7 @@ else
 			options_filters = new()
 			{ {"Nationality", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => p.Nationality).Distinct()).ToList()},
 			  {"Gender", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => ((Gender)p.Gender).ToString())).Distinct().ToList()},
-			  {"Circuit", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => p.Circuit).Distinct()).ToList()},
+			  {"Circuit", _pilotsList.SelectMany(p => p.pilotDTOs.Select(p => p.Circuit)).Distinct().ToList()},
 			  {"Weight", ["Light", "Medium", "Heavy"]}
 			};
 
