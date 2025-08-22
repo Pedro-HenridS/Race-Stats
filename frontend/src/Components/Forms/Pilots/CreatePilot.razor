@@ -1,0 +1,104 @@
+﻿@page "/create-pilot"
+@using src.Common.Enums.Category
+@using src.Common.Enums.Pilot
+@using src.DTO.pilot
+@using src.DTO.teams
+@inject HttpClient Http
+
+<EditForm Model="@newPilot" OnValidSubmit="@HandleValidSubmit">
+	<DataAnnotationsValidator />
+	<h3>Cadastrar Novo Piloto</h3>
+	<div class="form-section">
+		<label for="name">Nome:</label>
+		<InputText id="name" @bind-Value="newPilot.Name" placeholder="Nome Completo" />
+		<ValidationMessage For="@(() => newPilot.Name)" />
+	</div>
+	<div class="form-section">
+		<label for="nationality">Nacionalidade:</label>
+		<InputText id="nationality" @bind-Value="newPilot.Nationality" placeholder="Nacionalidade" />
+		<ValidationMessage For="@(() => newPilot.Nationality)" />
+	</div>
+	<div class="form-section">
+		<label for="circuit">Circuito:</label>
+		<InputText id="circuit" @bind-Value="newPilot.Circuit" placeholder="Circuito" />
+		<ValidationMessage For="@(() => newPilot.Circuit)" />
+	</div>
+	<div class="form-section">
+		<label for="fastestlap">Melhor Volta (HH:MM:SS):</label>
+		<InputText id="fastestlap" @bind-Value="fastestLap" placeholder="00:00:00" />
+		<ValidationMessage For="@(() => fastestLap)" />
+	</div>
+	<div class="form-section">
+		<label for="weight">Peso (kg):</label>
+		<InputNumber id="weight" @bind-Value="newPilot.Weight" placeholder="0" />
+		<ValidationMessage For="@(() => newPilot.Weight)" />
+	</div>
+	<div class="form-section">
+		<label for="gender">Gênero:</label>
+		<InputSelect id="gender" @bind-Value="newPilot.Gender">
+			@foreach (var gender in Enum.GetValues<Gender>())
+			{
+				<option value="@gender">@gender</option>
+			}
+		</InputSelect>
+		<ValidationMessage For="@(() => newPilot.Gender)" />
+	</div>
+	<div class="form-section">
+		<label for="team">Equipe:</label>
+		<InputSelect id="team" @bind-Value="newPilot.TeamId">
+			@foreach (var team in teams)
+			{
+				<option value="@team.Id">@team.Team</option>
+			}
+		</InputSelect>
+		<ValidationMessage For="@(() => newPilot.TeamId)" />
+	</div>
+	<div class="form-section">
+		<label for="category">Categoria:</label>
+		<InputSelect id="category" @bind-Value="newPilot.Category">
+			@foreach (var category in Enum.GetValues<SingleSeaterCategory>())
+			{
+				<option value="@category">@category</option>
+			}
+		</InputSelect>
+		<ValidationMessage For="@(() => newPilot.Category)" />
+	</div>
+	<button type="submit">Adicionar Piloto</button>
+</EditForm>
+
+@code {
+	private PilotItems newPilot = new PilotItems();
+	private List<TeamsDto> teams = new List<TeamsDto>();
+
+	private string fastestLap = "00:00:00"; // Usado para entrada de texto
+
+	protected override async Task OnInitializedAsync()
+	{
+		// Carrega a lista de times do backend
+		teams = await Http.GetFromJsonAsync<List<TeamsDto>>("http://localhost:5076/teams");
+	}
+
+	private async Task HandleValidSubmit()
+	{
+		// Converte a string da volta mais rápida para um TimeSpan antes de enviar
+		if (TimeSpan.TryParse(fastestLap, out TimeSpan timeSpanResult))
+		{
+			newPilot.Fastestlap = timeSpanResult;
+		}
+
+		// Envia os dados para a API
+		var response = await Http.PostAsJsonAsync("http://localhost:5076/pilots", newPilot);
+
+		if (response.IsSuccessStatusCode)
+		{
+			
+			newPilot = new PilotItems();
+			fastestLap = "00:00:00";
+			
+		}
+		else
+		{
+			
+		}
+	}
+}
