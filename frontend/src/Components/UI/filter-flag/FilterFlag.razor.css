@@ -16,7 +16,7 @@
 
 .close {
     margin-left: 1rem;
-    display: block;
+    display: flex;
 }
 
 .close:hover {
@@ -28,5 +28,5 @@
 }
 
 .showFlag{
-    display: block;
+    display: flex;
 }
