@@ -2,6 +2,7 @@
 
 @page "/teams"
 @using src.Components.UI.category_filter
+@using src.Components.UI.search
 @using src.Components.UI.team_card
 @using src.DTO.teams
 
@@ -11,6 +12,9 @@
 <main class="main">
 	<section class="category-container">
 		<CategoryFilter category=@static_teams_list.Where(t => t.Pilots.Count > 0).Select(t => t.Team).ToList() OnCategorySelected="UpdateByFilter" isClicked=@desative_selection />
+	</section>
+	<section class="search-container">
+		<Search search_text=UpdateSearch />
 	</section>
 	<section class="table-container">
 		<ul class="teams-table">
@@ -26,7 +30,7 @@
 
 @code {
 
-	public List<TeamsDto> teams;
+	public List<TeamsDto> teams = new List<TeamsDto>();
 
 	public String Filter_Opt = string.Empty;
 
@@ -36,8 +40,11 @@
 
 	public bool desative_selection = false;
 
+	private String Search;
+
 	protected override async Task OnInitializedAsync()
 	{
+
 		teams = await Http.GetFromJsonAsync<List<TeamsDto>>("http://localhost:5076/teams");
 		static_teams_list = teams;
 	}
@@ -45,31 +52,31 @@
 	public async Task UpdateByFilter(String filter_opt)
 	{
 
-		if (Last_Selected == filter_opt)
-		{
-			teams = await Http.GetFromJsonAsync<List<TeamsDto>>($"http://localhost:5076/teams?");
+		teams = await Http.GetFromJsonAsync<List<TeamsDto>>($"http://localhost:5076/teams?");
 
-			desative_selection = false;
-
-			Last_Selected = null;
-
-		}
-		else
-		{
-			Console.WriteLine(filter_opt);
-
-			var filter_id = static_teams_list
-			.Where(t => t.Team == filter_opt)
-			.Select(t => t.Id)
-			.FirstOrDefault()
-			.ToString();
-
-			Console.WriteLine(filter_id);
-
-			teams = await Http.GetFromJsonAsync<List<TeamsDto>>($"http://localhost:5076/teams?team={filter_id}");
-			
-			Last_Selected = filter_opt;
-		}
 		StateHasChanged();
+	}
+
+	public async Task NewFilters(String search)
+	{
+		try
+		{
+
+			teams = await Http.GetFromJsonAsync<List<TeamsDto>>($"http://localhost:5076/teams?search={search}");
+
+
+			StateHasChanged();
+		}
+		catch (Exception er)
+		{
+			Console.WriteLine(er);
+		}
+	}
+
+	public async Task UpdateSearch(String value)
+	{
+
+		var search_filter = value;
+		await NewFilters(value);
 	}
 }

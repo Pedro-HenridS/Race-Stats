@@ -20,7 +20,7 @@ namespace Application.Services.Teams
         }
         public async Task<List<TeamResponse>> GetTeams(TeamFilterRequest filter)
         {
-            var teams = await _pilotRepository.GetTeams(new Domain.Dto.Filter.TeamFilterRequest { TeamId = filter.Team ?? null });
+            var teams = await _pilotRepository.GetTeams(new Domain.Dto.Filter.TeamFilterRequest { TeamId = filter.Team ?? null, Search = filter.Search ?? "" });
 
             if (teams is null)
             {

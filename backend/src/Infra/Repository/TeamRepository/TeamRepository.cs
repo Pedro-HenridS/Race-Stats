@@ -27,6 +27,15 @@ namespace Infra.Repository.TeamRepository
                 query = query.Where(t => t.Id == filters.TeamId.Value);
             }
 
+            if (!string.IsNullOrEmpty(filters.Search))
+            {
+                var term = filters.Search.ToLower();
+
+                query = query.Where(p =>
+                    p.Name.ToLower().Contains(term) ||
+                    p.Pilots.Any(p => p.Name.ToLower().Contains(term)));
+            }
+
             var teams = await query
                 .Select(t => new TeamPilotsDto
                 {

@@ -1,16 +1,22 @@
 ﻿.search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: rgba(50, 50, 50, 1);
-    width: auto;
+    width: 20vw;
     padding: 0.8rem;
     border-radius: 0.5rem;
 }
 
 .inputSearch {
     background-color: transparent;
-    border:none;
+    border: none;
     color: white;
+    max-width: 20vw;
+    width: auto;
 }
 
 .inputSearch:focus{
     outline: none;
 }
+
