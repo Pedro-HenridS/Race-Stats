@@ -4,6 +4,7 @@
 @using src.Components.UI.category_filter
 @using src.Components.UI.filter_op
 @using src.Components.UI.pilot_table;
+@using src.Components.UI.search
 @using src.DTO.pilot;
 @using src.DTO.teams;
 
@@ -23,17 +24,10 @@
 				<CategoryFilter category=@_categories OnCategorySelected="OnCategorySelected" />
 			</div>
 			<div class="filter">
-				@if (filterIsClicked)
-				{
-					<div class="filterop">
-						<FilterOp options=@options_filters filters="NewFilters" />
-					</div>
-				}
-
-				<button @onclick=IsFilterClicked>
-					<i class="fas fa-filter"></i>
-				</button>
-
+				<Search search_text=UpdateSearch />
+				<div class="filter-menu">
+					<FilterOp options=@options_filters filters="NewFilters" />
+				</div>
 			</div>
 			@if (_viewPilotList != null)
 			{
@@ -61,15 +55,13 @@ else
 	private List<PilotItems>? _viewPilotList = null;
 
 	private String SelectedCategory;
-
 	private List<String> Nacionalidades;
+
+	private String Search;
 
 	private Dictionary<String, String> filters = new();
 
 	private Dictionary<String, List<String>> options_filters;
-
-
-	private bool filterIsClicked = false;
 
 	private async Task OnCategorySelected(string clickedText)
 	{
@@ -107,19 +99,11 @@ else
 		}
 	}
 
-	private void IsFilterClicked()
-	{
-		filterIsClicked = !filterIsClicked;
-	}
-
-	public async Task NewFilters(Dictionary<String, String> filtersSelected)
+	public async Task NewFilters(Dictionary<String, String>? filtersSelected)
 	{
 		try
 		{
-
 			var query = String.Join("&", filtersSelected.Select(f => $"{f.Key.ToLower()}={f.Value}"));
-
-			Console.WriteLine(query);
 
 			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>($"http://localhost:5076/pilots?{query}");
 
@@ -132,5 +116,12 @@ else
 		{
 			Console.WriteLine(er);
 		}
+	}
+
+	public async Task UpdateSearch(String value)
+	{
+
+		var search_filter = new Dictionary<String, String> { { "search", value } };
+		await NewFilters(search_filter);
 	}
 }

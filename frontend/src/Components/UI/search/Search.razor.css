@@ -1,0 +1,16 @@
+﻿.search {
+    background: rgba(50, 50, 50, 1);
+    width: auto;
+    padding: 0.8rem;
+    border-radius: 0.5rem;
+}
+
+.inputSearch {
+    background-color: transparent;
+    border:none;
+    color: white;
+}
+
+.inputSearch:focus{
+    outline: none;
+}

@@ -1,0 +1,13 @@
+﻿<div class="search">
+	<input class="inputSearch" @oninput="OnInputChanged" /> <i class="fa-solid fa-magnifying-glass icon"></i>
+</div>
+
+@code {
+	[Parameter]
+	public EventCallback<String> search_text { get; set; }
+
+	private async Task OnInputChanged(ChangeEventArgs e)
+	{
+		await search_text.InvokeAsync(e.Value?.ToString());
+	}
+}

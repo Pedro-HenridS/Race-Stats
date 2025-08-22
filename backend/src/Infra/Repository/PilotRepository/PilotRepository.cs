@@ -64,7 +64,9 @@ namespace Infra.Repository.PilotRepository
             {
                 var term = filters.Search.ToLower();
 
-                query = query.Where(p => p.Name.ToLower() == filters.Search || p.Team.Name.ToLower() == filters.Search);
+                query = query.Where(p =>
+                    p.Name.ToLower().Contains(term) ||
+                    p.Team.Name.ToLower().Contains(term));
             }
 
             var pilotos = await query

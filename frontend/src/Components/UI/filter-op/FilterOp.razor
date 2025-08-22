@@ -4,28 +4,35 @@
 
 <div class="container">
     <div class="op">
-        @foreach (var option in options)
+        
+        @if (filterIsClicked)
         {
-            <div class="wrapper">
-                <button class="option @(expandedOptions.ContainsKey(option.Key) && expandedOptions[option.Key] ? "clicked" : "isntClicked")"
-                        @onclick="() => OnOptClicked(option.Key)">
-                    @option.Key
-                    <div class="arrow-container">
-                        <i class="fas fa-chevron-down arrow @(expandedOptions.ContainsKey(option.Key) && expandedOptions[option.Key] ? "ArrowClass" : "")"></i>
-                    </div>
-                </button>
-                <ul class="options-dropdown @(expandedOptions.ContainsKey(option.Key) && expandedOptions[option.Key] ? "showDropDown" : "hideDropDown")">
-                    @foreach (string opt in option.Value)
-                    {
-                        <li @onclick="() => OnFilterOptionClicked(option.Key, opt)" class="@(
-                                                                                    filters_selecteds.Any(d => d.ContainsKey(option.Key)) &&
-                                                                                    filters_selecteds.Any(d => d.ContainsValue(opt)) ? "selected" : "noSelected")">
+            @foreach (var option in options)
+            {
+                <div class="wrapper">
+                    <button class="option @(expandedOptions.ContainsKey(option.Key) && expandedOptions[option.Key] ? "clicked" : "isntClicked")"
+                            @onclick="() => OnOptClicked(option.Key)">
+                        @option.Key
+                        <div class="arrow-container">
+                            <i class="fas fa-chevron-down arrow @(expandedOptions.ContainsKey(option.Key) && expandedOptions[option.Key] ? "ArrowClass" : "")"></i>
+                        </div>
+                    </button>
+                    <ul class="options-dropdown @(expandedOptions.ContainsKey(option.Key) && expandedOptions[option.Key] ? "showDropDown" : "hideDropDown")">
+                        @foreach (string opt in option.Value)
+                        {
+                            <li @onclick="() => OnFilterOptionClicked(option.Key, opt)" class="@(
+                                                                                        filters_selecteds.Any(d => d.ContainsKey(option.Key)) &&
+                                                                                        filters_selecteds.Any(d => d.ContainsValue(opt)) ? "selected" : "noSelected")">
                     @opt
-                </li>
-                                }
-                </ul>
-            </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
         }
+        <button class="btn-icon" @onclick=IsFilterClicked>
+            <i class="fas fa-filter"></i>
+        </button>
     </div>
 </div>
 
@@ -41,6 +48,14 @@
     public Dictionary<string, string>? selectedFilters { get; set; } = new();
 
     public Dictionary<string, bool> expandedOptions { get; set; } = new();
+
+
+    private bool filterIsClicked = false;
+    private void IsFilterClicked()
+    {
+        filterIsClicked = !filterIsClicked;
+    }
+
 
     private void OnOptClicked(string key)
     {

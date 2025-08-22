@@ -1,8 +1,6 @@
 ﻿.wrapper {
     position: relative;
     display: inline-flex;
-
-
 }
 
 .op{
@@ -14,6 +12,7 @@
 .container {
     display: flex;
     width: auto;
+    max-height: 2rem;
 }
 
 .option {
@@ -119,4 +118,8 @@ li:hover {
 
 .noSelected {
     background-color: rgba(50, 50, 50, 1);
+}
+
+.btn-icon {
+    margin-left: 1rem;
 }
