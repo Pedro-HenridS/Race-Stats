@@ -20,7 +20,7 @@ namespace Application.Services.Pilots
 
         public async Task UpdatePilotAsync(Guid id, PutRecordRequest request)
         {
-            var pilot = await _pilotRepository.GetPilotById(id);
+            var pilot = await _pilotRepository.GetPilotByIdAsync(id);
 
             if (pilot is null)
             {

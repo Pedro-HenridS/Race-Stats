@@ -18,7 +18,11 @@ namespace Infra.Repository.PilotRepository
             _context = context;
         }
 
-        public async Task<Pilot> GetPilotById(Guid id)
+        public async Task<Pilot> GetPilotByNameAsync(String name)
+        {
+            return await _context.Pilots.Where(p => p.Name == name).FirstOrDefaultAsync();
+        }
+        public async Task<Pilot> GetPilotByIdAsync(Guid id)
         {
             return await _context.Pilots.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
@@ -76,6 +80,7 @@ namespace Infra.Repository.PilotRepository
                     Category = g.Key,
                     pilotDTOs = g.OrderBy(p => p.Fastestlap).Select(p => new PilotDTO
                     {
+                        Id = p.Id,
                         Name = p.Name,
                         Fastestlap = p.Fastestlap,
                         Weight = p.Weight,
@@ -90,6 +95,26 @@ namespace Infra.Repository.PilotRepository
                 .ToListAsync();
 
             return pilotos;
+        }
+        public async Task CreatePilot(PilotRequest request)
+        {
+            var pilot = new Pilot
+            {
+                Id = Guid.NewGuid(),
+                Name = request.Name,
+                Fastestlap = request.Fastestlap,
+                Weight = request.Weight,
+                Gender = request.Gender,
+                Nationality = request.Nationality,
+                Circuit = request.Circuit,
+                TeamId = request.TeamId,
+                Leader = request.Leader,
+                Category = request.Category
+            };
+
+            await _context.Pilots.AddAsync(pilot);
+            await _context.SaveChangesAsync();
+
         }
     }
 }

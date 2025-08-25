@@ -8,9 +8,11 @@ namespace Domain.Interfaces.PilotRepository
 {
     public interface IPilotRepository
     {
-        public Task UpdatePilot(Pilot pilot);
-        public Task<Pilot> GetPilotById(Guid id);
+        public Task<Pilot> GetPilotByNameAsync(String name);
+        public Task<Pilot> GetPilotByIdAsync(Guid id);
         public Task<List<CategoryPilotsDto>> GetFilteredAsync(PilotFilterRequest filters);
+        public Task UpdatePilot(Pilot pilot);
+        public Task CreatePilot(PilotRequest pilot);
 
     }
 }

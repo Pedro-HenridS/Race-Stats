@@ -1,6 +1,6 @@
 ﻿namespace Communication.Enums
 {
-    public enum SingleSeaterCategory
+    public enum SingleSeaterCategoryDto
     {
         Formula1 = 0,
         Formula2 = 1,

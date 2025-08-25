@@ -43,7 +43,7 @@ namespace Application.Services.Teams
                     Circuit = p.Circuit,
                     TeamId = p.TeamId,
                     TeamName = p.TeamName,
-                    Category = p.Category.ToString()
+                    Category = (SingleSeaterCategoryDto)p.Category
                 }).ToList()
 
             }).ToList();

@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.PilotInterfaces;
-using Domain.Dto.Filter;
-using Domain.Dto.PilotsDto;
+using Communication.Requests.Pilot;
+using Communication.Responses.Pilot;
 
 namespace Application.UseCase.Pilot
 {
@@ -13,7 +13,7 @@ namespace Application.UseCase.Pilot
             _pilotService = pilotService;
         }
 
-        public async Task<List<CategoryPilotResponse>> Execute(PilotFilterRequest filters)
+        public async Task<List<CategoryPilotResponse>> Execute(GetFilteredPilotRequest filters)
         {
             return await _pilotService.GetFilteredAsync(filters);
         }

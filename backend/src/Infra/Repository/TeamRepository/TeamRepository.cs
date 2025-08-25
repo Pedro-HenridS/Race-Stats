@@ -49,6 +49,7 @@ namespace Infra.Repository.TeamRepository
                         Nationality = p.Nationality,
                         Gender = p.Gender,
                         TeamId = p.TeamId,
+                        TeamName = p.Team.Name,
                         Circuit = p.Circuit,
                     }).ToList()
                 })

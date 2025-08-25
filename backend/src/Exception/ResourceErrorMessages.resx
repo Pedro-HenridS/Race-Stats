@@ -117,13 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BAD_REQUEST" xml:space="preserve">
-    <value>Bad request</value>
-  </data>
   <data name="PILOTS_NOT_FOUND" xml:space="preserve">
     <value>Pilots not found</value>
   </data>
   <data name="UNKNOW_ERROR" xml:space="preserve">
     <value>Unknow Error</value>
+  </data>
+  <data name="BAD_REQUEST" xml:space="preserve">
+    <value>Bad request</value>
+  </data>
+  <data name="PILOT_ALREADY_EXIST" xml:space="preserve">
+    <value>Pilot already exist</value>
   </data>
 </root>

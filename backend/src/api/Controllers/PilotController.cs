@@ -1,7 +1,6 @@
 ﻿using Application.UseCase.Pilot;
 using Communication.Requests.Pilot;
-using Communication.Responses.Pilot;
-using Domain.Dto.Filter;
+using Domain.Dto.PilotsDto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -12,29 +11,39 @@ namespace Api.Controllers
     {
         private readonly GetAllUseCase _getAllUseCase;
         private readonly UpdateUseCase _updateUseCase;
+        private readonly AddPilotUseCase _addPilotUseCase;
 
-        public PilotController(
-            GetAllUseCase getAllUseCase,
-            UpdateUseCase updateUseCase)
+        public PilotController(GetAllUseCase getAllUseCase, UpdateUseCase updateUseCase, AddPilotUseCase addPilotUseCase)
         {
             _getAllUseCase = getAllUseCase;
             _updateUseCase = updateUseCase;
+            _addPilotUseCase = addPilotUseCase;
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<PilotResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<PilotRequest>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAll([FromQuery] PilotFilterRequest filters)
+        public async Task<IActionResult> GetAll([FromQuery] GetFilteredPilotRequest filters)
         {
             var pilots = await _getAllUseCase.Execute(filters);
 
             return Ok(pilots);
         }
 
+        [HttpPost]
+        [Route("add")]
+        [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddPilot([FromBody] PostPilotRequest request)
+        {
+            await _addPilotUseCase.Execute(request);
+
+            return NoContent();
+        }
+
         [HttpPut]
         [Route("record/{id}")]
-        [ProducesResponseType(typeof(List<PilotResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PutRecord([FromRoute] Guid id, [FromBody] PutRecordRequest request)

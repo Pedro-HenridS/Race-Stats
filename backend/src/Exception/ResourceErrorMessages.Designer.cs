@@ -70,6 +70,15 @@ namespace Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pilot already exist.
+        /// </summary>
+        public static string PILOT_ALREADY_EXIST {
+            get {
+                return ResourceManager.GetString("PILOT_ALREADY_EXIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pilots not found.
         /// </summary>
         public static string PILOTS_NOT_FOUND {

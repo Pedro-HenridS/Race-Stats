@@ -2,9 +2,8 @@
 
 namespace Domain.Dto.PilotsDto
 {
-    public class PilotDTO
+    public class PilotRequest
     {
-        public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public TimeSpan Fastestlap { get; set; }
         public decimal Weight { get; set; }
@@ -12,7 +11,7 @@ namespace Domain.Dto.PilotsDto
         public string Nationality { get; set; } = string.Empty;
         public string Circuit { get; set; } = string.Empty;
         public Guid TeamId { get; set; }
-        public string? TeamName { get; set; }
+        public bool Leader { get; set; }
         public SingleSeaterCategory Category { get; set; }
     }
 }
