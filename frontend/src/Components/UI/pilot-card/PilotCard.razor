@@ -1,9 +1,10 @@
-﻿@using src.DTO.pilot
+﻿
+@using src.DTO.pilot
 
 
 
-<div class="pilot-container" @onclick="Toggle">
-	<section class="copilot-item">
+<div class="pilot-container" >
+	<section class="copilot-item" @onclick="Toggle">
 		<div class="info-container">
 				<div class="general-info">
 					<div class="flag">
@@ -34,19 +35,23 @@
 				<div class="title">
 					<p>Time</p>
 				</div>
-
-				
 				<p class="text">
 					@pilot.Fastestlap
 				</p>
 			</div>
+
 			<div class="details">
 				<div>
 					@pilot.Gender
 				</div>
 				<div>
-
 					@pilot.Weight.ToString("f2") kg
+				</div>
+				<div>
+					@pilot.Circuit
+				</div>
+				<div>
+					@pilot.Category
 				</div>
 			</div>
 		</section>
@@ -59,7 +64,6 @@
 
 	[Parameter]
 	public PilotItems pilot { get; set; }
-
 
 	private string ArrowClass => isExpanded ? "rotate" : "";
 
@@ -74,5 +78,7 @@
 	{
 		return $"/Flags/{nationality}.svg";
 	}
+
+
 
 }

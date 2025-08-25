@@ -10,13 +10,11 @@ namespace Api.Controllers
     public class PilotController : ControllerBase
     {
         private readonly GetAllUseCase _getAllUseCase;
-        private readonly UpdateUseCase _updateUseCase;
         private readonly AddPilotUseCase _addPilotUseCase;
 
-        public PilotController(GetAllUseCase getAllUseCase, UpdateUseCase updateUseCase, AddPilotUseCase addPilotUseCase)
+        public PilotController(GetAllUseCase getAllUseCase, AddPilotUseCase addPilotUseCase)
         {
             _getAllUseCase = getAllUseCase;
-            _updateUseCase = updateUseCase;
             _addPilotUseCase = addPilotUseCase;
         }
 
@@ -38,17 +36,6 @@ namespace Api.Controllers
         public async Task<IActionResult> AddPilot([FromBody] PostPilotRequest request)
         {
             await _addPilotUseCase.Execute(request);
-
-            return NoContent();
-        }
-
-        [HttpPut]
-        [Route("record/{id}")]
-        [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutRecord([FromRoute] Guid id, [FromBody] PutRecordRequest request)
-        {
-            await _updateUseCase.Execute(id, request);
 
             return NoContent();
         }

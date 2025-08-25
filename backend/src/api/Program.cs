@@ -45,13 +45,11 @@ builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 
 // Service
 builder.Services.AddScoped<IPilotGetService, PilotGetService>();
-builder.Services.AddScoped<IPilotUpdateService, PilotUpdateService>();
 builder.Services.AddScoped<ITeamGetService, TeamGetService>();
 builder.Services.AddScoped<IPilotPostService, PilotPostService>();
 
 // UseCase
 builder.Services.AddScoped<GetAllUseCase>();
-builder.Services.AddScoped<UpdateUseCase>();
 builder.Services.AddScoped<GetAllTeamsUseCase>();
 builder.Services.AddScoped<AddPilotUseCase>();
 

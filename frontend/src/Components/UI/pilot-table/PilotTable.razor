@@ -8,9 +8,6 @@
 @inject HttpClient Http;
 
 <section>
-	
-		
-
 		@if (filterOp)
 		{	
 			<header class="header">
@@ -37,14 +34,12 @@
 			@foreach (TeamsDto team in teams)
 				{
 					<div class="team" >
+						
 						<TeamCard Teams=@team/>
 					</div>
 				}
 			</section>
-			
 		}
-	
-
 </section>
 
 @code {

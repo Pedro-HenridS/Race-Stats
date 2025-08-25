@@ -26,11 +26,6 @@ namespace Infra.Repository.PilotRepository
         {
             return await _context.Pilots.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
-        public async Task UpdatePilot(Pilot pilot)
-        {
-            _context.Pilots.Update(pilot);
-            await _context.SaveChangesAsync();
-        }
         public async Task<List<CategoryPilotsDto>> GetFilteredAsync(PilotFilterRequest filters)
         {
             var query = _context.Pilots.Include(t => t.Team).AsQueryable();
