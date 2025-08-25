@@ -6,63 +6,69 @@
 @inject HttpClient Http
 
 <EditForm Model="@newPilot" OnValidSubmit="@HandleValidSubmit">
-	<DataAnnotationsValidator />
-	<h3>Cadastrar Novo Piloto</h3>
-	<div class="form-section">
-		<label for="name">Nome:</label>
-		<InputText id="name" @bind-Value="newPilot.Name" placeholder="Nome Completo" />
-		<ValidationMessage For="@(() => newPilot.Name)" />
+	
+	
+	<div class="rowsection">
+		<div class="form-section">
+			<label for="name">Nome</label>
+			<input id="name" type="text" @oninput="@((e) => newPilot.Name = e.Value.ToString())" placeholder="Nome Completo" class="data" />
+		</div>
+		<div class="form-section">
+			<label for="nationality">Nacionalidade</label>
+			<input id="nationality" type="text" @oninput="@((e) => newPilot.Nationality = e.Value.ToString())" placeholder="Nacionalidade" class="data" />
+		</div>
 	</div>
-	<div class="form-section">
-		<label for="nationality">Nacionalidade:</label>
-		<InputText id="nationality" @bind-Value="newPilot.Nationality" placeholder="Nacionalidade" />
-		<ValidationMessage For="@(() => newPilot.Nationality)" />
+
+	<div class="rowsection">
+		<div class="form-section">
+			<label for="weight">Peso (kg)</label>
+			<input id="weight" type="number" @oninput="@((e) => newPilot.Weight = decimal.Parse(e.Value.ToString()))" placeholder="0" class="data" />
+		</div>
+		<div class="form-section">
+			<label for="gender">Gênero</label>
+			<select id="gender" @oninput="@((e) => newPilot.Gender = Enum.Parse<Gender>(e.Value.ToString()))" class="data">
+				@foreach (var gender in Enum.GetValues<Gender>())
+				{
+					<option value="@gender">@gender</option>
+				}
+			</select>
+		</div>
 	</div>
-	<div class="form-section">
-		<label for="circuit">Circuito:</label>
-		<InputText id="circuit" @bind-Value="newPilot.Circuit" placeholder="Circuito" />
-		<ValidationMessage For="@(() => newPilot.Circuit)" />
+
+	<div class="rowsection">
+		<div class="form-section">
+			<label for="circuit">Circuito</label>
+			<input id="circuit" @oninput="@((e) => newPilot.Circuit = e.Value.ToString())" placeholder="Circuito" class="data" />
+		</div>
+		<div class="form-section">
+			<label for="fastestlap">Melhor Volta (HH:MM:SS)</label>
+			<input id="fastestlap" @oninput="@((e) => fastestLap = e.Value.ToString())" placeholder="00:00:00" class="data" />
+		</div>
 	</div>
-	<div class="form-section">
-		<label for="fastestlap">Melhor Volta (HH:MM:SS):</label>
-		<InputText id="fastestlap" @bind-Value="fastestLap" placeholder="00:00:00" />
-		<ValidationMessage For="@(() => fastestLap)" />
+	
+	<div class="rowsection">
+		<div class="form-section">
+			<label for="team">Equipe</label>
+			<select id="team" @oninput="@((e) => newPilot.TeamId = Guid.Parse(e.Value.ToString()))" class="data">
+				<option value="" disabled selected>Selecione uma equipe...</option>
+				@foreach (var team in teams)
+				{
+					<option value="@team.Id">@team.Team</option>
+				}
+			</select>
+		</div>
+		<div class="form-section">
+			<label for="category">Categoria</label>
+			<select id="category" @oninput="@((e) => newPilot.Category = Enum.Parse<SingleSeaterCategory>(e.Value.ToString()))" class="data">
+				@foreach (var category in Enum.GetValues<SingleSeaterCategory>())
+				{
+					<option value="@category">@category</option>
+				}
+			</select>
+		</div>
 	</div>
-	<div class="form-section">
-		<label for="weight">Peso (kg):</label>
-		<InputNumber id="weight" @bind-Value="newPilot.Weight" placeholder="0" />
-		<ValidationMessage For="@(() => newPilot.Weight)" />
-	</div>
-	<div class="form-section">
-		<label for="gender">Gênero:</label>
-		<InputSelect id="gender" @bind-Value="newPilot.Gender">
-			@foreach (var gender in Enum.GetValues<Gender>())
-			{
-				<option value="@gender">@gender</option>
-			}
-		</InputSelect>
-		<ValidationMessage For="@(() => newPilot.Gender)" />
-	</div>
-	<div class="form-section">
-		<label for="team">Equipe:</label>
-		<InputSelect id="team" @bind-Value="newPilot.TeamId">
-			@foreach (var team in teams)
-			{
-				<option value="@team.Id">@team.Team</option>
-			}
-		</InputSelect>
-		<ValidationMessage For="@(() => newPilot.TeamId)" />
-	</div>
-	<div class="form-section">
-		<label for="category">Categoria:</label>
-		<InputSelect id="category" @bind-Value="newPilot.Category">
-			@foreach (var category in Enum.GetValues<SingleSeaterCategory>())
-			{
-				<option value="@category">@category</option>
-			}
-		</InputSelect>
-		<ValidationMessage For="@(() => newPilot.Category)" />
-	</div>
+	
+	
 	<button type="submit">Adicionar Piloto</button>
 </EditForm>
 
@@ -76,7 +82,9 @@
 	{
 		// Carrega a lista de times do backend
 		teams = await Http.GetFromJsonAsync<List<TeamsDto>>("http://localhost:5076/teams");
+		newPilot.TeamId = teams[0].Id;
 	}
+
 
 	private async Task HandleValidSubmit()
 	{
@@ -87,7 +95,7 @@
 		}
 
 		// Envia os dados para a API
-		var response = await Http.PostAsJsonAsync("http://localhost:5076/pilots", newPilot);
+		var response = await Http.PostAsJsonAsync("http://localhost:5076/pilots/add", newPilot);
 
 		if (response.IsSuccessStatusCode)
 		{
