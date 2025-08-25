@@ -1,20 +1,32 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
+﻿@inject NavigationManager Navigation
+
+<div class="main">
+    <button title="Ranking" class="ranking" @onclick="() => Redirect(Urls[0])">
+        <p>
+            Ranking
+        </p>
+    </button>
+    <button title="Teams" class="teams" @onclick="() => Redirect(Urls[1])">
+        <p>
+            Teams
+        </p>
+    </button>
+    <button title="Teams" class="teams" @onclick="() => Redirect(Urls[2])">
+        <p>
+            Adicionar Piloto
+        </p>
+    </button>
+
 </div>
 
 
 
 @code {
-    private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private List<String> Urls = ["http://localhost:7002/ranking", "http://localhost:7002/teams", "http://localhost:7002/AddPilot"];
 
-    private void ToggleNavMenu()
+    private void Redirect(String url)
     {
-        collapseNavMenu = !collapseNavMenu;
+        Navigation.NavigateTo(url);
     }
 }
