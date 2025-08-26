@@ -62,6 +62,7 @@ dotnet run
 ```
 
 Neste ponto, tanto o a parte client-side quanto o server-side estão operantes e prontas para testes. A seguir.
+
 ---
 
 ## Endpoints do Backend (Swagger)
