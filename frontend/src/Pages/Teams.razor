@@ -11,7 +11,7 @@
 <NavMenu></NavMenu>
 <main class="main">
 	<section class="category-container">
-		<CategoryFilter category=@static_teams_list.Where(t => t.Pilots.Count > 0).Select(t => t.Team).ToList() OnCategorySelected="UpdateByFilter" isClicked=@desative_selection />
+		<CategoryFilter category=@static_teams_list.Where(t => t.Pilots.Count > 0).Select(t => t.Team).ToList() OnCategorySelected=UpdateByFilter isClicked=@desative_selection />
 	</section>
 	<section class="search-container">
 		<Search search_text=UpdateSearch />
