@@ -38,7 +38,7 @@ Isso vai criar o banco, a tabela teams e inserir os registros que você colocou 
 4. Clonar o repositório
 ```bash
 # Clonar o repositório
-git clone https://github.com/usuario/nome-do-projeto.git
+git clone https://github.com/Pedro-HenridS/Race-Stats
 cd nome-do-projeto
 
 #Acesse a pasta api, na rota 'backend/src', pelo terminal e inicie adicione o seguinte user-secret:
