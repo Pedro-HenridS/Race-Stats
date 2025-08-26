@@ -65,10 +65,13 @@
 	[Parameter]
 	public PilotItems pilot { get; set; }
 
+
+	// Altera a classe do icon de acordo com o valor de isExpanded
 	private string ArrowClass => isExpanded ? "rotate" : "";
 
 	public bool isExpanded = false;
 
+	// Ao clicar no icone, a variavel isExpanded é mudada e os detalhes do jogador é mostrado
 	private void Toggle()
 	{
 		isExpanded = !isExpanded;
@@ -76,6 +79,8 @@
 
 	private string GetFlagPath(string nationality)
 	{
+		// Seleciona a bandeira pela pasta flags usando a nacionalidade do piloto. 
+		// Não é o modo ideal mas funciona em pequena escala
 		return $"/Flags/{nationality}.svg";
 	}
 

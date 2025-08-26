@@ -1,11 +1,12 @@
-﻿@inject HttpClient Http
-
-@page "/teams"
+﻿@using System.Net.Http.Json;
 @using src.Components.UI.category_filter
 @using src.Components.UI.search
 @using src.Components.UI.team_card
 @using src.DTO.teams
 
+@inject HttpClient Http
+
+@page "/teams"
 
 <PageTitle>Teams</PageTitle>
 <NavMenu></NavMenu>
@@ -29,29 +30,23 @@
 </main>
 
 @code {
-
 	public List<TeamsDto> teams = new List<TeamsDto>();
-
 	public String Filter_Opt = string.Empty;
-
 	public List<TeamsDto> static_teams_list;
-
 	public String? Last_Selected = null;
-
 	public bool desative_selection = false;
-
 	private String Search;
 
 	protected override async Task OnInitializedAsync()
 	{
-
 		teams = await Http.GetFromJsonAsync<List<TeamsDto>>("http://localhost:5076/teams");
 		static_teams_list = teams;
 	}
 
 	public async Task UpdateByFilter(String filter_opt)
 	{
-		if(Filter_Opt == filter_opt)
+		// Alterna a seleção do filtro
+		if (Filter_Opt == filter_opt)
 		{
 			Filter_Opt = "";
 			filter_opt = "";
@@ -60,20 +55,16 @@
 		{
 			Filter_Opt = filter_opt;
 		}
-		
+
 		NewFilters(filter_opt);
-
-
 	}
 
 	public async Task NewFilters(String search)
 	{
 		try
 		{
-
+			// Busca times com base no filtro
 			teams = await Http.GetFromJsonAsync<List<TeamsDto>>($"http://localhost:5076/teams?search={search}");
-
-
 			StateHasChanged();
 		}
 		catch (Exception er)
@@ -84,8 +75,9 @@
 
 	public async Task UpdateSearch(String value)
 	{
-
+		// Lida com a busca por texto
 		var search_filter = value;
 		await NewFilters(value);
 	}
 }
+

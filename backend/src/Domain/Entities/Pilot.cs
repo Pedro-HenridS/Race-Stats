@@ -14,6 +14,8 @@ namespace Domain.Entities
         public string Circuit { get; set; } = string.Empty;
         public Guid TeamId { get; set; }
         public bool Leader { get; set; }
+
+        // Estabelece a relação um para muitos entre Times e Pilotos
         public SingleSeaterCategory Category { get; set; }
 
         [ForeignKey("TeamId")]

@@ -8,6 +8,7 @@
 
 	private async Task OnInputChanged(ChangeEventArgs e)
 	{
+		// Envia os dados da pesquisa pro componente pai
 		await search_text.InvokeAsync(e.Value?.ToString());
 	}
 }

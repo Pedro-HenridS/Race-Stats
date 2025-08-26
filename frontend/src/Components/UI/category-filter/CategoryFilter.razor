@@ -36,23 +36,19 @@
 
 	private async Task Selected(string cate)
 	{
+		// Controla o display do filtro e enviar qual filtro foi clicado pro componente pai
 		if (isClicked)
 		{
 			clickedText = string.Empty;
 			isClicked = false;
-
-			Console.WriteLine(clickedText);
-
 		}
 		else
 		{
 			clickedText = cate;
 			isClicked = true;
-			Console.WriteLine(clickedText);
-
 		}
-
-		
+	
+		// Envia os dados pro componente pai
 		await OnCategorySelected.InvokeAsync(clickedText);
 		
 	}

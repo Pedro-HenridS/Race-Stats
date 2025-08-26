@@ -5,17 +5,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
+
     [Route("/teams")]
     [ApiController]
     public class TeamController : ControllerBase
     {
-        GetAllTeamsUseCase _getAllTeamsUseCase;
+        private GetAllTeamsUseCase _getAllTeamsUseCase;
 
+        // O construtor injeta o caso de uso de obtenção de todos os times.
         public TeamController(GetAllTeamsUseCase getAllTeamsUseCase)
         {
             _getAllTeamsUseCase = getAllTeamsUseCase;
         }
+
+        // Endpoint HTTP GET para obter todos os times.
         [HttpGet]
+        // Define os tipos de resposta HTTP esperados.
         [ProducesResponseType(typeof(List<TeamResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]

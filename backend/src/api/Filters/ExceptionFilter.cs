@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Api.Filters
 {
+    // Adiciona um MiddleWare de filtros
     public class ExceptionFilter : IExceptionFilter
     {
         public void OnException(ExceptionContext context)
         {
+
+            // Caso a exceção seja conhecida, é lançada com uma mensagem existente no ResourceErrorMessages
             if (context.Exception is RaceException)
             {
                 HandleException(context);
@@ -28,6 +31,7 @@ namespace Api.Filters
                 context.Result = new ObjectResult(errors);
             }
 
+            // Garante que UnknowException será chamado caso o erro seja desconhecido, impedindo possíveis vazamentos de dados
             else
             {
                 context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
@@ -35,10 +39,11 @@ namespace Api.Filters
             }
         }
 
+        // Impede que uma mensagem de erro com dados sensíveis seja lançada
         private void UnknowException(ExceptionContext context)
         {
-            //context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            //context.Result = new ObjectResult(ResourceErrorMessages.UNKNOW_ERROR);
+            context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Result = new ObjectResult(ResourceErrorMessages.UNKNOW_ERROR);
         }
     }
 }

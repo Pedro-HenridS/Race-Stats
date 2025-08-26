@@ -44,9 +44,11 @@
 
 @code {
 
+	// Recebe os dados do cliente do pai
 	[Parameter]
 	public List<PilotItems> data { get; set; }
 
+	// Recebe as opções de filtros do pai
 	[Parameter]
 	public bool filterOp { get; set; } = true;
 

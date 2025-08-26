@@ -3,16 +3,17 @@ using Communication.Enums;
 using Communication.Requests.Pilot;
 using Communication.Responses.Pilot;
 using Domain.Dto.Filter;
-
 using Domain.Interfaces.PilotRepository;
 using Exception;
 
 namespace Application.Services.Pilots
 {
+
     public class PilotGetService : IPilotGetService
     {
         private readonly IPilotRepository _pilotRepository;
 
+        // O construtor injeta a dependência do repositório de pilotos.
         public PilotGetService(
             IPilotRepository pilotRepository
             )
@@ -20,8 +21,10 @@ namespace Application.Services.Pilots
             _pilotRepository = pilotRepository;
         }
 
+        // Obtém pilotos filtrados de forma assíncrona e mapeia para o DTO de resposta.
         public async Task<List<CategoryPilotResponse>> GetFilteredAsync(GetFilteredPilotRequest filters)
         {
+            // Mapeia o DTO de requisição para o DTO de filtro.
             var filter_handle = new PilotFilterRequest
             {
                 Circuit = filters.Circuit,
@@ -32,16 +35,18 @@ namespace Application.Services.Pilots
                 weight = filters.weight != null ? Enum.Parse<Domain.Enums.Weight>(filters.weight.ToString()) : null
             };
 
+            // Chama o repositório para obter os pilotos com os filtros aplicados.
             var pilots = await _pilotRepository.GetFilteredAsync(filter_handle);
 
+            // Se a lista de pilotos for nula, lança uma exceção personalizada.
             if (pilots is null)
             {
                 throw new RaceException(ResourceErrorMessages.PILOTS_NOT_FOUND, 404);
             }
 
+            // Mapeia a lista de pilotos do domínio para o DTO de resposta.
             var response = pilots.Select(c => new CategoryPilotResponse
             {
-
                 Category = c.Category.ToString(),
                 pilots = c.pilotDTOs.Select(p => new PilotResponse
                 {
@@ -56,11 +61,12 @@ namespace Application.Services.Pilots
                     TeamName = p.TeamName,
                     Category = Enum.Parse<SingleSeaterCategoryDto>(p.Category.ToString()),
                 }).ToList()
-
             }).ToList();
 
             return response;
         }
+
+        // Verifica se um piloto existe no banco de dados pelo nome.
         public async Task<bool> PilotExistsAsync(String name)
         {
             var pilot = await _pilotRepository.GetPilotByNameAsync(name);

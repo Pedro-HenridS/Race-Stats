@@ -7,10 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repository.PilotRepository
 {
+    // Repositório para operações de dados de pilotos usando Entity Framework Core.
     public class PilotRepository : IPilotRepository
     {
         private AppDbContext _context;
 
+        // Injeta o contexto do banco de dados no construtor.
         public PilotRepository(
             AppDbContext context
         )
@@ -18,14 +20,19 @@ namespace Infra.Repository.PilotRepository
             _context = context;
         }
 
+        // Busca um piloto pelo nome.
         public async Task<Pilot> GetPilotByNameAsync(String name)
         {
             return await _context.Pilots.Where(p => p.Name == name).FirstOrDefaultAsync();
         }
+
+        // Busca um piloto pelo ID.
         public async Task<Pilot> GetPilotByIdAsync(Guid id)
         {
             return await _context.Pilots.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
+
+        // Retorna pilotos filtrados e agrupados por categoria.
         public async Task<List<CategoryPilotsDto>> GetFilteredAsync(PilotFilterRequest filters)
         {
             var query = _context.Pilots.Include(t => t.Team).AsQueryable();
@@ -56,7 +63,6 @@ namespace Infra.Repository.PilotRepository
                 {
                     query = query.Where(p => p.Weight > 75);
                 }
-
             }
 
             if (!string.IsNullOrEmpty(filters.Search))
@@ -91,6 +97,8 @@ namespace Infra.Repository.PilotRepository
 
             return pilotos;
         }
+
+        // Adiciona um novo piloto ao banco de dados.
         public async Task CreatePilot(PilotRequest request)
         {
             var pilot = new Pilot
@@ -109,7 +117,6 @@ namespace Infra.Repository.PilotRepository
 
             await _context.Pilots.AddAsync(pilot);
             await _context.SaveChangesAsync();
-
         }
     }
 }

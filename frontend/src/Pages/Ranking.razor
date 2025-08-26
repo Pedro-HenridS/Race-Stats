@@ -16,22 +16,27 @@
 
 <PageTitle>Ranking</PageTitle>
 <NavMenu></NavMenu>
-@if (@_pilotsList != null) {
+@if (@_pilotsList != null)
+{
 
 	<main class="main">
 
 		<section class="center">
 			<div class="category">
+				@* Componente para filtrar por categoria *@
 				<CategoryFilter category=@_categories OnCategorySelected="OnCategorySelected" />
 			</div>
 			<div class="filter">
+				@* Componente de busca *@
 				<Search search_text=UpdateSearch />
 				<div class="filter-menu">
+					@* Componente para opções de filtro *@
 					<FilterOp options=@options_filters filters="NewFilters" />
 				</div>
 			</div>
 			@if (_viewPilotList != null)
 			{
+				@* Tabela de pilotos *@
 				<PilotTable data=@_viewPilotList />
 			}
 			else
@@ -49,21 +54,29 @@ else
 
 
 @code {
+	// Lista de pilotos agrupados por categoria
 	private List<CategoryPilotsDto> _pilotsList;
 	private List<TeamsDto> _teamsList;
 
+	// Lista de categorias disponíveis
 	private List<String> _categories;
+
+	// Lista de pilotos para exibição na tabela
 	private List<PilotItems>? _viewPilotList = null;
 
+	// Categoria selecionada
 	private String SelectedCategory;
-	private List<String> Nacionalidades;
 
+	// Filtros de busca
 	private String Search;
 
+	// Dicionário para armazenar filtros selecionados
 	private Dictionary<String, String> filters = new();
 
+	// Opções de filtro para o componente FilterOp
 	private Dictionary<String, List<String>> options_filters;
 
+	// Lida com a seleção de uma categoria
 	private async Task OnCategorySelected(string clickedText)
 	{
 		SelectedCategory = clickedText;
@@ -71,6 +84,7 @@ else
 		Console.WriteLine(SelectedCategory);
 	}
 
+	// Define a lista de pilotos a ser exibida com base na categoria
 	private void SetViewList(List<CategoryPilotsDto> pilotsList, string category)
 	{
 		_viewPilotList = pilotsList
@@ -83,11 +97,16 @@ else
 	{
 		try
 		{
+			// Carrega os dados iniciais dos pilotos
 			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>($"http://localhost:5076/pilots");
 
+			// Popula a lista de categorias
 			_categories = _pilotsList.Select(c => c.category).ToList();
+
+			// Define a lista de exibição inicial
 			SetViewList(_pilotsList, _categories[0]);
 
+			// Popula o dicionário de opções de filtro
 			options_filters = new()
 			{
 				{"Nationality", _pilotsList.SelectMany(p => p.pilots.Select(p => p.Nationality).Distinct()).ToList()},
@@ -97,20 +116,24 @@ else
 			};
 
 		}
-		catch(Exception er)
+		catch (Exception er)
 		{
 			Console.WriteLine(er);
 		}
 	}
 
+	// Aplica os novos filtros recebidos
 	public async Task NewFilters(Dictionary<String, String>? filtersSelected)
 	{
 		try
 		{
+			// Constrói a string de query
 			var query = String.Join("&", filtersSelected.Select(f => $"{f.Key.ToLower()}={f.Value}"));
 
+			// Busca os pilotos com os novos filtros
 			_pilotsList = await Http.GetFromJsonAsync<List<CategoryPilotsDto>>($"http://localhost:5076/pilots?{query}");
 
+			// Atualiza a lista de categorias e a visualização
 			_categories = _pilotsList.Select(c => c.category).ToList();
 			SetViewList(_pilotsList, _categories.FirstOrDefault());
 
@@ -122,6 +145,7 @@ else
 		}
 	}
 
+	// Lida com a busca por texto
 	public async Task UpdateSearch(String value)
 	{
 		var search_filter = new Dictionary<String, String> { { "search", value } };

@@ -14,6 +14,21 @@ CREATE TABLE IF NOT EXISTS teams (
   ColorHex VARCHAR(10) NOT NULL
 );
 
+-- Criar tabela de pilotos
+CREATE TABLE IF NOT EXISTS pilots (
+  Id CHAR(36) PRIMARY KEY,
+  Name VARCHAR(100) NOT NULL,
+  Fastestlap TIME,
+  Weight DECIMAL(5, 2),
+  Gender INT,
+  Nationality VARCHAR(50) NOT NULL,
+  Circuit VARCHAR(100) NOT NULL,
+  TeamId CHAR(36) NOT NULL,
+  Category INT,
+  Leader INT,
+  FOREIGN KEY (TeamId) REFERENCES teams(Id)
+);
+
 -- Inserir times (semente inicial)
 INSERT INTO teams (Id, Name, Country, Founded, ColorHex) VALUES
 ('1d7e5c92-8a4b-4c61-9f1d-2a8f7c9b1e3f', 'Carlin', 'UK', '2025-01-01', '#0033A0'),

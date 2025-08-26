@@ -6,10 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repository.TeamRepository
 {
+    // Repositório para operações de dados de times.
     public class TeamRepository : ITeamRepository
     {
         private AppDbContext _context;
 
+        // Injeta o contexto do banco de dados no construtor.
         public TeamRepository(
             AppDbContext context
         )
@@ -17,16 +19,19 @@ namespace Infra.Repository.TeamRepository
             _context = context;
         }
 
+        // Retorna uma lista de times com seus pilotos, aplicando filtros.
         public async Task<List<TeamPilotsDto>> GetTeams(TeamFilterRequest filters)
         {
-
+            // Inicia uma query, incluindo a navegação para a entidade Pilots.
             var query = _context.Teams.Include(t => t.Pilots).AsQueryable();
 
+            // Aplica o filtro por ID do time, se for fornecido.
             if (filters.TeamId.HasValue)
             {
                 query = query.Where(t => t.Id == filters.TeamId.Value);
             }
 
+            // Aplica o filtro de busca por nome do time ou nome de piloto.
             if (!string.IsNullOrEmpty(filters.Search))
             {
                 var term = filters.Search.ToLower();
@@ -36,6 +41,7 @@ namespace Infra.Repository.TeamRepository
                     p.Pilots.Any(p => p.Name.ToLower().Contains(term)));
             }
 
+            // Executa a query e projeta o resultado para o DTO.
             var teams = await query
                 .Select(t => new TeamPilotsDto
                 {

@@ -10,13 +10,16 @@ namespace Application.Services.Pilots
     {
         private readonly IPilotRepository _pilotRepository;
 
+        // O construtor injeta o repositório de pilotos para acesso aos dados.
         public PilotPostService(IPilotRepository pilotRepository)
         {
             _pilotRepository = pilotRepository;
         }
 
+        // Este método cria um novo piloto no banco de dados.
         public async Task CreatePilot(PostPilotRequest request)
         {
+            // Mapeia os dados da requisição para o DTO de piloto.
             var pilot = new PilotRequest
             {
                 Name = request.Name,
@@ -30,6 +33,7 @@ namespace Application.Services.Pilots
                 Category = Enum.Parse<SingleSeaterCategory>(request.Category.ToString())
             };
 
+            // Chama o método de criação no repositório.
             await _pilotRepository.CreatePilot(pilot);
         }
     }

@@ -8,25 +8,31 @@ using Exception;
 
 namespace Application.Services.Teams
 {
+
     public class TeamGetService : ITeamGetService
     {
-        private readonly ITeamRepository _pilotRepository;
+        private readonly ITeamRepository _teamRepository;
 
+        // O construtor injeta a dependência do repositório de times.
         public TeamGetService(
-            ITeamRepository pilotRepository
+            ITeamRepository teamRepository
             )
         {
-            _pilotRepository = pilotRepository;
+            _teamRepository = teamRepository;
         }
+
         public async Task<List<TeamResponse>> GetTeams(TeamFilterRequest filter)
         {
-            var teams = await _pilotRepository.GetTeams(new Domain.Dto.Filter.TeamFilterRequest { TeamId = filter.Team ?? null, Search = filter.Search ?? "" });
+            // Mapeia os filtros de requisição para o formato.
+            var teams = await _teamRepository.GetTeams(new Domain.Dto.Filter.TeamFilterRequest { TeamId = filter.Team ?? null, Search = filter.Search ?? "" });
 
+            // Lança uma exceção se nenhum time for encontrado.
             if (teams is null)
             {
                 throw new RaceException(ResourceErrorMessages.PILOTS_NOT_FOUND, 404);
             }
 
+            // Mapeia os dados do domínio para o DTO de resposta.
             List<TeamResponse> response = teams.Select(t => new TeamResponse
             {
                 Id = t.Id,
@@ -45,7 +51,6 @@ namespace Application.Services.Teams
                     TeamName = p.TeamName,
                     Category = (SingleSeaterCategoryDto)p.Category
                 }).ToList()
-
             }).ToList();
 
             return response;
