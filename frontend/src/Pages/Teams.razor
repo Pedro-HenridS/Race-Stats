@@ -51,10 +51,18 @@
 
 	public async Task UpdateByFilter(String filter_opt)
 	{
+		if(Filter_Opt == filter_opt)
+		{
+			filter_opt = "";
+		}
+		else
+		{
+			Filter_Opt = filter_opt;
+		}
+		
+		NewFilters(filter_opt);
 
-		teams = await Http.GetFromJsonAsync<List<TeamsDto>>($"http://localhost:5076/teams?");
 
-		StateHasChanged();
 	}
 
 	public async Task NewFilters(String search)
