@@ -6,11 +6,6 @@ Race Stats é uma plataforma desenvolvida para aprimorar o data tracking no univ
   <img src="content/Captura%20de%20tela%202025-08-26%20161259.png" width="45%" />
   <img src="content/Captura%20de%20tela%202025-08-26%20161341.png" width="45%" />
 </p>
-
-<p align="center">
-  <img src="content/Captura%20de%20tela%202025-08-26%20161404.png" width="45%" />
-  <img src="content/Captura%20de%20tela%202025-08-26%20161430.png" width="45%" />
-</p>
 ---
 
 ## Pré-requisitos
