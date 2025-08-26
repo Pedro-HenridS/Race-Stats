@@ -108,5 +108,5 @@ Backend: O backend em ASP.NET Core Web API é responsável pela lógica de negó
 
 Frontend: No frontend, a escolha do Blazor com uma abordagem componentizada foi feita para criar uma interface de usuário reativa e modular. Isso garante que cada parte da UI (como os cards de pilotos e os filtros) seja um componente independente e reutilizável. O design foi inspirado no universo do automobilismo para criar uma experiência visual atraente e temática.
 
-Dificuldades e Observações
+## Dificuldades e Observações
 Uma das principais dificuldades foi a implementação de filtros por meio de querys. Este desafio foi superado mediante estudo e pesquisa. 
