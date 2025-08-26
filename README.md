@@ -5,7 +5,7 @@ Race Stats é uma plataforma desenvolvida para aprimorar o data tracking no univ
 
 ## Pré-requisitos
 - [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)  
-- MySQL ou MariaDB  
+- MySQL 
 - Git  
 
 ---
