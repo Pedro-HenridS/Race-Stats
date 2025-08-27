@@ -1,4 +1,4 @@
-# Race Stats
+se# Race Stats
 Race Stats é uma plataforma desenvolvida para aprimorar o data tracking no universo das corridas automobilísticas. Com uma interface clara e organizada, oferece visualizações precisas e intuitivas de estatísticas, permitindo que entusiastas e profissionais acompanhem de perto o desempenho, tendências e resultados do mundo da alta velocidade.
 
 <p align="center">
@@ -19,7 +19,7 @@ Race Stats é uma plataforma desenvolvida para aprimorar o data tracking no univ
 1. No Windows: abra o “Prompt de Comando” ou o “PowerShell”.
 No macOS/Linux: abra o “Terminal”.
 
-2. Entre no MySQL (se ainda quiser interagir com o MySQL):
+2. Entre no MySQL 
 
 ```bash
 mysql -u seu_usuario -p
