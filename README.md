@@ -61,7 +61,7 @@ dotnet run
 # Neste momento, o Visual Studio irá te redirecionar para a página inicial do projeto: http://localhost:7002/
 ```
 
-Neste ponto, tanto o a parte client-side quanto o server-side estão operantes e prontas para testes. A seguir.
+Neste ponto, tanto a parte client-side quanto o server-side estão operantes e prontas para testes. A seguir.
 
 ---
 
