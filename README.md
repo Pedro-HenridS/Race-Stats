@@ -55,7 +55,7 @@ dotnet run
 ```
 6. Subir o frontend
 ```
-# Acesse a fronten/src/ no terminal e execute o seguinte comando:
+# Acesse a frontend/src/ no terminal e execute o seguinte comando:
 dotnet run
 
 # Neste momento, o Visual Studio irá te redirecionar para a página inicial do projeto: http://localhost:7002/
